@@ -1,0 +1,29 @@
+{
+  "name": "yorita-eat",
+  "version": "1.0.0",
+  "description": "Web api for restaurant owners to expand their businesses on the web. Convenience, reviews, and data collection. Foodie networking.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunny-yorita/yorita-eat.git"
+  },
+  "author": "sunny",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunny-yorita/yorita-eat/issues"
+  },
+  "homepage": "https://github.com/sunny-yorita/yorita-eat#readme",
+  "dependencies": {
+    "body-parser": "1.18.3",
+    "cookie-session": "2.0.0-beta.3",
+    "express": "4.16.4",
+    "mongoose": "5.4.3",
+    "nodemon": "1.18.9",
+    "passport": "0.4.0",
+    "passport-twitter": "1.0.4"
+  }
+}
