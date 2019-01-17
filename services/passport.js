@@ -3,15 +3,20 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
-const User = mongoose.model('users');
+const knex = require('../db/knex');
+
+// const User = mongoose.model('users');
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user._id);
 });
 
 passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id);
-  if (user) done(null, user);
+  const fetchUser = await knex
+    .select()
+    .from('users')
+    .where({ _id: id });
+  if (fetchUser.length) done(null, fetchUser[0]);
 });
 
 passport.use(
@@ -22,12 +27,26 @@ passport.use(
       callbackURL: keys.twitter.callbackURL
     },
     async (token, tokenSecret, profile, cb) => {
-      const registeredUser = await User.findOne({ twitterId: profile.id });
-      if (registeredUser) {
-        return cb(null, registeredUser);
+      try {
+        const fetchUser = await knex
+          .select('_id')
+          .from('users')
+          .where({ twitter_id: profile.id.toString() });
+        if (fetchUser.length) {
+          const user = fetchUser[0];
+          console.log(user);
+          return cb(null, user);
+        }
+        const newUser = await knex('users')
+          .insert({
+            twitter_id: profile.id.toString()
+          })
+          .returning('_id');
+        if (newUser.length) return cb(null, newUser[0]);
+      } catch (err) {
+        console.log(err);
+        cb(err);
       }
-      const newUser = await new User({ twitterId: profile.id }).save();
-      cb(null, newUser);
     }
   )
 );

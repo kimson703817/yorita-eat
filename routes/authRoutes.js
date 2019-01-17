@@ -7,9 +7,17 @@ router.get(
   '/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   (req, res) => {
-    console.log('callback success');
-    res.send('welcome yoshino');
+    res.redirect('/');
   }
 );
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
+router.get('/current_user', (req, res) => {
+  res.send(req.user);
+});
 
 module.exports = router;

@@ -2,22 +2,20 @@
 
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
+require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
+
 const passport = require('passport');
 
 /** HELPER modules **/
 
 const keys = require('./config/keys');
-const models = require('./models/models');
 const routes = require('./routes/routes');
 
 // Initialize app and connect database
-mongoose.connect(keys.mongoURI);
 const app = express();
 
-// Initialize models and services
-models.user();
+// Initialize services
 require('./services/passport');
 
 app.use(bodyParser.json());
