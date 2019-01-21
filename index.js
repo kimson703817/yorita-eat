@@ -27,7 +27,8 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/auth', routes.auth);
+app.use('/api/auth', routes.auth);
+app.use('/api/eatery', routes.eatery);
 
 app.get('/', (req, res) => {
   res.send('seki hiromi');

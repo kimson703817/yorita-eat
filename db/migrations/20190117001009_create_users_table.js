@@ -1,13 +1,14 @@
 exports.up = (knex, Promise) =>
   knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"').then(() =>
-    knex.schema.createTable('users', table => {
-      table
+    knex.schema.createTable('users', users => {
+      users
         .uuid('_id')
         .primary()
         .defaultTo(knex.raw('uuid_generate_v4()'));
-      table.string('twitter_id').unique();
-      table.string('google_id').unique();
-      table.string('facebook_id').unique();
+      users.string('twitter_id').unique();
+      users.string('google_id').unique();
+      users.string('facebook_id').unique();
+      users.boolean('isOwner').defaultTo(false);
     })
   );
 

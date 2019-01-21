@@ -1,5 +1,4 @@
 const keys = require('../config/keys');
-const mongoose = require('mongoose');
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
@@ -34,7 +33,6 @@ passport.use(
           .where({ twitter_id: profile.id.toString() });
         if (fetchUser.length) {
           const user = fetchUser[0];
-          console.log(user);
           return cb(null, user);
         }
         const newUser = await knex('users')
