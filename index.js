@@ -27,7 +27,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/api/auth', routes.auth);
+app.use('/auth', routes.auth);
 app.use('/api/eatery', routes.eatery);
 
 app.get('/', (req, res) => {
