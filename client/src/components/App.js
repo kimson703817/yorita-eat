@@ -1,24 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 import Header from './Header';
-const Dashboard = () => <h2>Dashboard</h2>;
-const SurveyNew = () => <h2>SurveyNew</h2>;
-const Landing = () => <h2>Landing</h2>;
+const Discover = () => <h2>Discover</h2>;
+const Trending = () => <h2>Trending</h2>;
+const Home = () => <h2>Homepage</h2>;
 
-const App = () => {
-  return (
-    <div>
-      <BrowserRouter>
-        <div>
-          <Header />
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/surveys" component={Dashboard} />
-          <Route exact path="/surveys/new" component={SurveyNew} />
-        </div>
-      </BrowserRouter>
-    </div>
-  );
-};
+class App extends Component {
+  componentDidMount() {
+    this.props.fetchUser();
+  }
 
-export default App;
+  render() {
+    return (
+      <div>
+        <BrowserRouter>
+          <div>
+            <Header />
+            <Route exact path="/" component={Home} />
+            <Route path="/discover" component={Discover} />
+            <Route path="/trending" component={Trending} />
+          </div>
+        </BrowserRouter>
+      </div>
+    );
+  }
+}
+
+export default connect(
+  null,
+  actions
+)(App);

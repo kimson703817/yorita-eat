@@ -1,5 +1,6 @@
 const passport = require('passport');
 const router = require('express').Router();
+const clientURI = require('../config/keys').clientURI;
 
 router.get('/twitter', passport.authenticate('twitter'));
 
@@ -7,7 +8,8 @@ router.get(
   '/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   (req, res) => {
-    res.redirect('/');
+    const redirectURI = clientURI + '/discover/joy';
+    res.redirect(redirectURI);
   }
 );
 
