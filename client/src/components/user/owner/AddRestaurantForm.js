@@ -11,8 +11,8 @@ class AddRestaurantForm extends Component {
       [name]: value
     });
 
-  onSubmit = form => {
-    axios.post('/api/eatery/add', this.state);
+  onSubmit = async form => {
+    await axios.put('/api/eatery/add', this.state);
   };
 
   render() {

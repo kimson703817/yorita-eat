@@ -3,6 +3,10 @@ const passport = require('passport');
 const requireLogin = require('../middlewares/requireLogin');
 const router = require('express').Router();
 
+router.get('/testing', (req, res) => {
+  res.send('Sunshine See May');
+});
+
 router.put('/add' /*, requireLogin*/, async (req, res) => {
   const { name } = req.body;
   const owner_id = req.user._id;
