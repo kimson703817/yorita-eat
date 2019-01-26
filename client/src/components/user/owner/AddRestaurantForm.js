@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import './css/AddRestaurantForm.css';
 
 import YoritaUserForm from '../utils/YoritaUserForm';
 
@@ -13,6 +15,7 @@ class AddRestaurantForm extends Component {
 
   onSubmit = async form => {
     await axios.put('/api/eatery/add', this.state);
+    // <Redirect to="/owner/main" />;
   };
 
   render() {
@@ -30,14 +33,19 @@ class AddRestaurantForm extends Component {
         {
           key: 'ENTER_RESTAURANT_ADDRESS_FIELD',
           name: 'restaurantAddress',
-          label: 'address',
+          label: 'Address',
           placeholder: "Restaurant's Location",
           onChange: this.onChange
         }
       ]
     };
 
-    return <YoritaUserForm options={formOptions} />;
+    return (
+      <YoritaUserForm
+        options={formOptions}
+        fieldClass="ui form yorita field centered"
+      />
+    );
   }
 }
 

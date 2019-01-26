@@ -1,0 +1,6 @@
+.ui.form.yorita.field.centered {
+  width: 40rem;
+  transform: translate(40rem, 17rem);
+  font-size: 1.5rem;
+  text-align: center;
+}
