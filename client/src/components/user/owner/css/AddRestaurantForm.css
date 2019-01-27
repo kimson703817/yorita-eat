@@ -1,6 +1,16 @@
-.ui.form.yorita.field.centered {
+/*.ui.form.restaurant.name.centered {
   width: 40rem;
   transform: translate(40rem, 17rem);
   font-size: 1.5rem;
   text-align: center;
+}*/
+
+.yorita.input.text.centered {
+  text-align: center !important;
+}
+
+.ui.massive.form.restaurant.name {
+  text-align: center;
+  width: 40rem;
+  transform: translate(40rem, 17rem);
 }

@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
+
+import { Form } from 'semantic-ui-react';
+// import axios from 'axios';
+
+import { composeReqObject } from '../../../actions';
+// import * as actions from '../../../actions';
+
 import './css/AddRestaurantForm.css';
 
 import YoritaUserForm from '../utils/YoritaUserForm';
@@ -13,40 +20,60 @@ class AddRestaurantForm extends Component {
       [name]: value
     });
 
-  onSubmit = async form => {
-    await axios.put('/api/eatery/add', this.state);
+  onSubmit = event => {
+    const { value } = event.target.name;
+    const requestObject = {
+      name: value
+    };
+
+    this.props.composeReqObject(requestObject);
+    this.setState({
+      isSubmitted: true
+    });
+    // await axios.put('/api/eatery/add', this.state);
     // <Redirect to="/owner/main" />;
   };
 
-  render() {
+  redirectToNextStep = () => (
+    <Redirect to="/owner/new-restaurant/provide-info" />
+  );
+
+  renderForm = () => {
+    const submitButton = <Form.Button content="Go" />;
     const formOptions = {
       onSubmit: this.onSubmit,
       onChange: null,
+      submitButton,
       fields: [
         {
           key: 'ENTER_RESTAURANT_NAME_FIELD',
           name: 'name',
           label: 'Name of your Happy Place',
-          placeholder: 'Restaurant Name',
-          onChange: this.onChange
-        },
-        {
-          key: 'ENTER_RESTAURANT_ADDRESS_FIELD',
-          name: 'restaurantAddress',
-          label: 'Address',
-          placeholder: "Restaurant's Location",
-          onChange: this.onChange
+          placeholder: 'Restaurant Name'
         }
       ]
     };
-
     return (
       <YoritaUserForm
         options={formOptions}
-        fieldClass="ui form yorita field centered"
+        formClass="ui massive form restaurant name"
+        fieldClass="yorita input text centered"
       />
+    );
+  };
+
+  render() {
+    return (
+      <div>
+        {!this.state.isSubmitted
+          ? this.renderForm()
+          : this.redirectToNextStep()}
+      </div>
     );
   }
 }
 
-export default AddRestaurantForm;
+export default connect(
+  null,
+  { composeReqObject }
+)(AddRestaurantForm);

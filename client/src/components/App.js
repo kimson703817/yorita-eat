@@ -25,7 +25,11 @@ class App extends Component {
             <Route path="/discover" component={Discover} />
             <Route path="/trending" component={Trending} />
             <Route path="/owner/heartfelt-welcome" component={OwnerWelcome} />
-            <Route path="/owner/new-restaurant" component={AddRestaurantForm} />
+            <Route
+              exact
+              path="/owner/new-restaurant"
+              component={AddRestaurantForm}
+            />
           </div>
         </BrowserRouter>
       </div>
