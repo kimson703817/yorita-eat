@@ -6,6 +6,7 @@ import * as actions from '../actions';
 import Navbar from './nav/Navbar';
 import OwnerWelcome from './user/owner/OwnerWelcome';
 import AddRestaurantForm from './user/owner/AddRestaurantForm';
+import RestaurantInfoForm from './user/owner/RestaurantInfoForm';
 const Discover = () => <h2>Discover</h2>;
 const Trending = () => <h2>Trending</h2>;
 const Home = () => <h2>Homepage</h2>;
@@ -29,6 +30,11 @@ class App extends Component {
               exact
               path="/owner/new-restaurant"
               component={AddRestaurantForm}
+            />
+            <Route
+              exact
+              path="/owner/new-restaurant/provide-info"
+              component={RestaurantInfoForm}
             />
           </div>
         </BrowserRouter>

@@ -13,12 +13,11 @@ exports.up = (knex, Promise) =>
         .notNullable();
       chainLocations.foreign('eateries_id').references('eateries._id');
       chainLocations.string('streetAddr').notNullable();
-      chainLocations.string('streetName').notNullable();
       chainLocations.string('city').notNullable();
       chainLocations.string('state').notNullable();
       chainLocations.string('zipcode').notNullable();
-      chainLocations.string('areaCode').notNullable();
-      chainLocations.string('phone').notNullable();
+      chainLocations.string('areaCode');
+      chainLocations.string('phone');
       chainLocations.string('businessHours').notNullable();
     })
     .createTable('menuItems', menuItems => {
@@ -33,4 +32,7 @@ exports.up = (knex, Promise) =>
     });
 
 exports.down = (knex, Promise) =>
-  knex.schema.dropTable('menuItems').dropTable('eateries');
+  knex.schema
+    .dropTable('menuItems')
+    .dropTable('chainLocations')
+    .dropTable('eateries');

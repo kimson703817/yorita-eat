@@ -2,20 +2,14 @@ import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
 
 class YoritaUserForm extends Component {
-  renderField = ({ key, name, label, placeholder }) => {
-    const { fieldClass } = this.props;
+  renderField = fieldProps => {
+    const { key, label, inputProps } = fieldProps;
 
     return (
-      <div className="field" key={key}>
-        <label>{label}</label>
+      <div key={key} className="field">
+        {label && <label>{label}</label>}
         <div className="ui input">
-          <input
-            autoComplete="off"
-            className={fieldClass}
-            name={name}
-            placeholder={placeholder}
-            type="text"
-          />
+          <input {...inputProps} />
         </div>
       </div>
     );
@@ -28,7 +22,7 @@ class YoritaUserForm extends Component {
     return (
       <Form size="massive" className={formClass} onSubmit={onSubmit}>
         {fields.map(this.renderField)}
-        {submitButton}
+        {submitButton && submitButton}
       </Form>
     );
   };

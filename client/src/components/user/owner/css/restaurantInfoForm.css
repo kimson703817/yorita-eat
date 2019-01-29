@@ -1,0 +1,15 @@
+.ui.medium.form.restaurantInfo {
+  width: 42rem;
+}
+
+.field.input.centered > div {
+  width: 40rem !important;
+}
+
+.field.input.centered > div > input {
+  text-align: center;
+}
+
+.field.input.centered > label {
+  padding-left: 6rem;
+}

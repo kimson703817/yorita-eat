@@ -6,11 +6,10 @@ import { Form } from 'semantic-ui-react';
 // import axios from 'axios';
 
 import { composeReqObject } from '../../../actions';
-// import * as actions from '../../../actions';
 
-import './css/AddRestaurantForm.css';
+import './css/addRestaurantForm.css';
 
-import YoritaUserForm from '../utils/YoritaUserForm';
+import YoritaUserForm from '../../form_builders/YoritaUserForm';
 
 class AddRestaurantForm extends Component {
   state = {};
@@ -42,24 +41,22 @@ class AddRestaurantForm extends Component {
     const submitButton = <Form.Button content="Go" />;
     const formOptions = {
       onSubmit: this.onSubmit,
-      onChange: null,
-      submitButton,
+      submitButton: submitButton,
       fields: [
         {
-          key: 'ENTER_RESTAURANT_NAME_FIELD',
-          name: 'name',
           label: 'Name of your Happy Place',
-          placeholder: 'Restaurant Name'
+          key: 'ENTER_RESTAURANT_NAME_FIELD',
+          icon: 'arrow right',
+          inputProps: {
+            autoComplete: 'off',
+            className: 'text centered',
+            name: 'name',
+            placeholder: 'Restaurant Name'
+          }
         }
       ]
     };
-    return (
-      <YoritaUserForm
-        options={formOptions}
-        formClass="ui massive form restaurant name"
-        fieldClass="yorita input text centered"
-      />
-    );
+    return <YoritaUserForm options={formOptions} formClass="new restaurant" />;
   };
 
   render() {
