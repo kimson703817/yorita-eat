@@ -5,6 +5,12 @@ exports.up = (knex, Promise) =>
       eateries.uuid('owner_id').notNullable();
       eateries.foreign('owner_id').references('users._id');
       eateries.string('name').notNullable();
+      eateries.string('streetAddr');
+      eateries.string('city');
+      eateries.string('state');
+      eateries.string('zipcode');
+      eateries.string('areaCode');
+      eateries.string('phone');
     })
     .createTable('chainLocations', chainLocations => {
       chainLocations
@@ -18,7 +24,6 @@ exports.up = (knex, Promise) =>
       chainLocations.string('zipcode').notNullable();
       chainLocations.string('areaCode');
       chainLocations.string('phone');
-      chainLocations.string('businessHours').notNullable();
     })
     .createTable('menuItems', menuItems => {
       menuItems.increments('id');

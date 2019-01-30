@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER, COMPOSE_REQ_OBJECT } from './types';
+import { FETCH_USER, COMPOSE_REQ_OBJECT, SEND_REQUEST } from './types';
 
 export const fetchUser = () => async dispatch => {
   const res = await axios.get('/auth/current_user');
@@ -12,3 +12,7 @@ export const composeReqObject = requestObject => {
     requestObject
   };
 };
+
+export const sendRequest = () => ({
+  type: SEND_REQUEST
+});

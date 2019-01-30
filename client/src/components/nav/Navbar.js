@@ -32,10 +32,10 @@ class Navbar extends Component {
   render() {
     const userIcon = this.renderIcon();
     const items = [
-      { key: 'home', as: Link, to: '/', name: 'home' },
-      { key: 'discover', as: Link, to: '/discover/joy', name: 'discover' },
+      { key: 'homeRoute', as: Link, to: '/', name: 'home' },
+      { key: 'discoverRoute', as: Link, to: '/discover/joy', name: 'discover' },
       {
-        key: 'trending',
+        key: 'trendingRoute',
         as: Link,
         to: '/trending/taste-it-while-its-hot',
         name: 'trending'

@@ -1,15 +1,32 @@
-.ui.medium.form.restaurantInfo {
-  width: 42rem;
+.form.info.center {
+  transform: translate(43rem, 5rem) !important;
+  width: 27rem;
 }
 
-.field.input.centered > div {
-  width: 40rem !important;
-}
-
-.field.input.centered > div > input {
+.form.info.center > h1 {
   text-align: center;
 }
 
-.field.input.centered > label {
-  padding-left: 6rem;
+.field.address.city > .ui.input {
+  width: 18.4rem !important;
+}
+
+.field.address.state > .ui.input {
+  width: 3rem !important;
+}
+
+.field.address.zip > .ui.input {
+  width: 5rem !important;
+}
+
+.field.phone.area > .ui.input {
+  width: 3.1rem !important;
+}
+
+.field.phone > .ui.input {
+  width: 7rem !important;
+}
+
+.fields.phone > span {
+  padding-top: 0.2rem;
 }
