@@ -4,28 +4,39 @@ import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 
-import { sendRequest } from '../../../actions';
+import { onRequestSent } from '../../../actions';
 import { stateOptions } from '../../form_builders/utils/stateOptions';
 
 import './css/restaurantInfoForm.css';
 
 class RestaurantInfoForm extends Component {
-  state = {};
+  state = { stateField: null, responseObject: null };
+
   onSubmit = async event => {
     const { address, city, zipcode, areaCode, phone } = event.target;
-    const { name } = this.props.requestObject;
-    const updatedRequestObject = {
+    const { name } = this.props.requestData;
+    const updatedRequestData = {
       name,
       streetAddr: address.value,
       city: city.value,
-      state: this.state.state,
+      state: this.state.stateField,
       zipcode: zipcode.value,
       areaCode: areaCode.value,
       phone: phone.value
     };
 
-    console.log(updatedRequestObject);
+    const req = {
+      method: 'put',
+      url: '/api/eatery/add',
+      data: updatedRequestData
+    };
 
+    const res = await axios(req);
+
+    this.setState({ responseObject: res });
+    this.props.onRequestSent();
+
+    // this.props.sendRequest(req);
     // const responseObject = await axios.put(
     //   '/api/eatery/add',
     //   updatedRequestObject
@@ -40,15 +51,27 @@ class RestaurantInfoForm extends Component {
   };
 
   onSelectChange = (event, { value }) => {
-    this.setState({ state: value });
+    this.setState({ stateField: value });
   };
 
   render() {
-    if (!this.props.requestObject)
-      return <Redirect to="/owner/new-restaurant" />;
+    if (this.state.responseObject) {
+      const { data } = this.state.responseObject;
+      const { _id, name } = data;
+      const pathname = `/eatery/happy-place/${_id}/${name}`;
+      return (
+        <Redirect
+          to={{
+            pathname,
+            state: { data }
+          }}
+        />
+      );
+    }
+    if (!this.props.requestData) return <Redirect to="/owner/new-restaurant" />;
     return (
       <div className="form info center">
-        <h1>{this.props.requestObject.name}</h1>
+        <h1>{this.props.requestData.name}</h1>
         <Form
           className="restaurantInfo"
           autoComplete="off"
@@ -81,12 +104,6 @@ class RestaurantInfoForm extends Component {
               label="Zipcode"
               name="zipcode"
             />
-            {/*<div className="field address zip">
-                          <label>Zipcode</label>
-                          <div className="ui input">
-                            <input />
-                          </div>
-                        </div>*/}
           </Form.Group>
           <span className="field">
             <label>Phone</label>
@@ -117,18 +134,11 @@ class RestaurantInfoForm extends Component {
   }
 }
 
-const mapStateToProps = ({ requestObject }) => {
-  return { requestObject };
+const mapStateToProps = ({ requestData }) => {
+  return { requestData };
 };
 
 export default connect(
   mapStateToProps,
-  { sendRequest }
+  { onRequestSent }
 )(RestaurantInfoForm);
-
-// (
-//   <div>
-//     <div>{this.props.requestObject.name}</div>
-//     {this.renderForm()}
-//   </div>
-// );

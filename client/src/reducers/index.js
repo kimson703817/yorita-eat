@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
-import requestObjectReducer from './requestObjectReducer';
+import requestDataReducer from './requestDataReducer';
+import responseObjectReducer from './responseObjectReducer';
 
 export default combineReducers({
   auth: authReducer,
-  requestObject: requestObjectReducer
+  requestData: requestDataReducer,
+  responseObjectReducer: responseObjectReducer
 });

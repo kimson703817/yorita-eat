@@ -8,11 +8,11 @@ router.get('/testing', (req, res) => {
 });
 
 router.put('/add', requireLogin, async (req, res) => {
-  const { name, city, state, zipcode, areaCode, phone } = req.body;
+  const { name, streetAddr, city, state, zipcode, areaCode, phone } = req.body;
   const owner_id = req.user._id;
 
   try {
-    const res_id = await knex('eateries')
+    const db_res = await knex('eateries')
       .insert({
         owner_id,
         name,
@@ -23,9 +23,19 @@ router.put('/add', requireLogin, async (req, res) => {
         areaCode,
         phone
       })
-      .returning('_id');
-    res.send({ _id: res_id[0] });
+      .returning([
+        '_id',
+        'name',
+        'streetAddr',
+        'city',
+        'state',
+        'zipcode',
+        'areaCode',
+        'phone'
+      ]);
+    res.status(201).send(db_res[0]);
   } catch (err) {
+    console.log(err);
     res.status(err.status || 422).send(err);
   }
 });

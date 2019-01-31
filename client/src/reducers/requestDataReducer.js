@@ -1,10 +1,10 @@
-import { COMPOSE_REQ_OBJECT, SEND_REQUEST } from '../actions/types';
+import { COMPOSE_REQ_OBJECT, ON_REQ_SENT } from '../actions/types';
 
 export default (state = null, action) => {
   switch (action.type) {
     case COMPOSE_REQ_OBJECT:
-      return action.requestObject;
-    case SEND_REQUEST:
+      return action.requestData;
+    case ON_REQ_SENT:
       return null;
     default:
       return state;
