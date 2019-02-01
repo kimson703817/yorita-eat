@@ -6,27 +6,36 @@ import { Container, Grid, Image, Header } from 'semantic-ui-react';
 import { sendRequest } from '../../actions';
 
 class RestaurantHomepage extends Component {
-  componentDidMount() {}
+  state = {
+    data: null
+  };
+  async componentDidMount() {
+    const { params } = this.props.match;
+    const { state } = this.props.location;
+    if (!state) {
+      const req = {
+        method: 'get',
+        url: `/api/eatery/${params.id}`
+      };
+      const res = await axios(req);
+      const { data } = res;
+      this.setState({ data });
+    }
+  }
 
   getData = () => {
-    if (!this.props._id) {
-      return this.props.location.state.data;
+    const { data } = this.state;
+    const { state } = this.props.location;
+    if (!data && state) {
+      return state.data;
     }
-    return this.props;
+    // console.log('outside');
+    return data;
   };
   render() {
-    // const { data } = this.props.location.state;
-    const {
-      owner_id,
-      _id,
-      name,
-      streetAddr,
-      city,
-      state,
-      zipcode,
-      areaCode,
-      phone
-    } = this.getData();
+    const data = this.getData();
+    if (!data) return <div>Not Found</div>;
+    const { name, streetAddr, city, state, zipcode, areaCode, phone } = data;
     return (
       <Container>
         <Grid>
@@ -36,7 +45,7 @@ class RestaurantHomepage extends Component {
             <div>{streetAddr}</div>
             <div>{`${city}, ${state} ${zipcode}`}</div>
             <div>
-              {`${areaCode}`} - {`${phone.slice(0, 3)}-${phone.slice(3)}`}
+              {`${areaCode}`}-{`${phone.slice(0, 3)}-${phone.slice(3)}`}
             </div>
           </Grid.Column>
         </Grid>
