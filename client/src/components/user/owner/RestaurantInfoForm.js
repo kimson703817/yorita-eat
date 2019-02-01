@@ -58,7 +58,7 @@ class RestaurantInfoForm extends Component {
     if (this.state.responseObject) {
       const { data } = this.state.responseObject;
       const { _id, name } = data;
-      const pathname = `/eatery/happy-place/${_id}/${name}`;
+      const pathname = `/eatery/happy-place/${_id}`;
       return (
         <Redirect
           to={{

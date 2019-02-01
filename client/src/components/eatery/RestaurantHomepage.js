@@ -6,14 +6,18 @@ import { Container, Grid, Image, Header } from 'semantic-ui-react';
 import { sendRequest } from '../../actions';
 
 class RestaurantHomepage extends Component {
-  componentDidMount() {
-    if (this.props._id) console.log(this.props._id);
-    console.log(this.props);
-  }
+  componentDidMount() {}
 
+  getData = () => {
+    if (!this.props._id) {
+      return this.props.location.state.data;
+    }
+    return this.props;
+  };
   render() {
-    const { data } = this.props.location.state;
+    // const { data } = this.props.location.state;
     const {
+      owner_id,
       _id,
       name,
       streetAddr,
@@ -22,7 +26,7 @@ class RestaurantHomepage extends Component {
       zipcode,
       areaCode,
       phone
-    } = data;
+    } = this.getData();
     return (
       <Container>
         <Grid>

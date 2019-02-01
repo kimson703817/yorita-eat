@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -38,8 +39,24 @@ class App extends Component {
               component={RestaurantInfoForm}
             />
             <Route
-              path="/eatery/happy-place/:id/:name"
-              component={RestaurantHomepage}
+              path="/eatery/happy-place/:id"
+              render={props => {
+                const { params } = props.match;
+                const { state } = props.location;
+                if (state) {
+                  return <RestaurantHomepage {...props} />;
+                }
+                return <div>Not Found</div>;
+                // const req = {
+                //   method: 'get',
+                //   url: `/api/eatery/${params.id}`
+                // };
+                // const res = await axios(req);
+                // console.log(res);
+                // if (res.status === 404) return <div>Not Found</div>;
+                // const { data } = res;
+                // return <RestaurantHomepage {...props} {...data} />;
+              }}
             />
           </div>
         </BrowserRouter>
