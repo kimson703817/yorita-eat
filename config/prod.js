@@ -7,6 +7,8 @@ module.exports = {
   },
   pgURI: process.env.DATABASE_URL,
   clientURI: 'https://yorita-eat.herokuapp.com',
-  iamAccessKeyId: process.env.IAM_ACCESS_KEY,
-  iamSecretAccessKey: process.env.IAM_SECRET_KEY
+  IAM: { 
+    iamAccessKeyId: process.env.IAM_ACCESS_KEY,
+    iamSecretAccessKey: process.env.IAM_SECRET_KEY
+  }
 };
