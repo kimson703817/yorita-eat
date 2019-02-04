@@ -30,10 +30,6 @@ app.use(passport.session());
 app.use('/auth', routes.auth);
 app.use('/api/eatery', routes.eatery);
 
-app.get('/', (req, res) => {
-  res.send('seki hiromi');
-});
-
 if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets
   // such as main.js or main.css
