@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Web api for restaurant owners to expand their businesses on the web. Convenience, reviews, and data collection. Foodie networking.",
   "main": "index.js",
+  "engines": {
+    "node": "10.11.0",
+    "npm": "6.5.0"
+  },
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
@@ -20,6 +24,7 @@
   },
   "homepage": "https://github.com/sunny-yorita/yorita-eat#readme",
   "dependencies": {
+    "aws-sdk": "2.395.0",
     "body-parser": "1.18.3",
     "concurrently": "4.1.0",
     "cookie-session": "2.0.0-beta.3",
