@@ -10,5 +10,15 @@ module.exports = {
     seeds: {
       directory: __dirname + '/db/seeds'
     }
+  },
+  production: {
+    client: 'pg',
+    connection: keys.pgURI,
+    migrations: {
+      directory: __dirname + '/db/migrations'
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds'
+    }
   }
 };
