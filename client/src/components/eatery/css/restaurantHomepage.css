@@ -1,0 +1,39 @@
+.restaurant.home.icon {
+  position: relative;
+}
+
+.restaurant.home.icon .overlay {
+  position: absolute;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.restaurant.home.icon .overlay .table-wrapper {
+  width: 100%;
+  height: 100%;
+  display: table;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.restaurant.home.icon .overlay .table-wrapper .edit-icon {
+  width: 100%;
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.restaurant.home.name {
+  margin-top: 0.3rem;
+}
+
+.restaurant.home.button.edit {
+  margin-top: 2rem;
+  text-align: center;
+  width: 100%;
+}
