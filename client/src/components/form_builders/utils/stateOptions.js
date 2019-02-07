@@ -1,297 +1,297 @@
 export const stateOptions = [
   {
     key: 'AL',
-    value: 'Alabama',
+    value: 'AL',
     text: 'AL'
   },
   {
     key: 'AK',
-    value: 'Alaska',
+    value: 'AK',
     text: 'AK'
   },
   {
     key: 'AS',
-    value: 'American Samoa',
+    value: 'AS',
     text: 'AS'
   },
   {
     key: 'AZ',
-    value: 'Arizona',
+    value: 'AZ',
     text: 'AZ'
   },
   {
     key: 'AR',
-    value: 'Arkansas',
+    value: 'AR',
     text: 'AR'
   },
   {
     key: 'CA',
-    value: 'California',
+    value: 'CA',
     text: 'CA'
   },
   {
     key: 'CO',
-    value: 'Colorado',
+    value: 'CO',
     text: 'CO'
   },
   {
     key: 'CT',
-    value: 'Connecticut',
+    value: 'CT',
     text: 'CT'
   },
   {
     key: 'DE',
-    value: 'Delaware',
+    value: 'DE',
     text: 'DE'
   },
   {
     key: 'DC',
-    value: 'District Of Columbia',
+    value: 'DC',
     text: 'DC'
   },
   {
     key: 'FM',
-    value: 'Federated States Of Micronesia',
+    value: 'FM',
     text: 'FM'
   },
   {
     key: 'FL',
-    value: 'Florida',
+    value: 'FL',
     text: 'FL'
   },
   {
     key: 'GA',
-    value: 'Georgia',
+    value: 'GA',
     text: 'GA'
   },
   {
     key: 'GU',
-    value: 'Guam',
+    value: 'GU',
     text: 'GU'
   },
   {
     key: 'HI',
-    value: 'Hawaii',
+    value: 'HI',
     text: 'HI'
   },
   {
     key: 'ID',
-    value: 'Idaho',
+    value: 'ID',
     text: 'ID'
   },
   {
     key: 'IL',
-    value: 'Illinois',
+    value: 'IL',
     text: 'IL'
   },
   {
     key: 'IN',
-    value: 'Indiana',
+    value: 'IN',
     text: 'IN'
   },
   {
     key: 'IA',
-    value: 'Iowa',
+    value: 'IA',
     text: 'IA'
   },
   {
     key: 'KS',
-    value: 'Kansas',
+    value: 'KS',
     text: 'KS'
   },
   {
     key: 'KY',
-    value: 'Kentucky',
+    value: 'KY',
     text: 'KY'
   },
   {
     key: 'LA',
-    value: 'Louisiana',
+    value: 'LA',
     text: 'LA'
   },
   {
     key: 'ME',
-    value: 'Maine',
+    value: 'ME',
     text: 'ME'
   },
   {
     key: 'MH',
-    value: 'Marshall Islands',
+    value: 'MH',
     text: 'MH'
   },
   {
     key: 'MD',
-    value: 'Maryland',
+    value: 'MD',
     text: 'MD'
   },
   {
     key: 'MA',
-    value: 'Massachusetts',
+    value: 'MA',
     text: 'MA'
   },
   {
     key: 'MI',
-    value: 'Michigan',
+    value: 'MI',
     text: 'MI'
   },
   {
     key: 'MN',
-    value: 'Minnesota',
+    value: 'MN',
     text: 'MN'
   },
   {
     key: 'MS',
-    value: 'Mississippi',
+    value: 'MS',
     text: 'MS'
   },
   {
     key: 'MO',
-    value: 'Missouri',
+    value: 'MO',
     text: 'MO'
   },
   {
     key: 'MT',
-    value: 'Montana',
+    value: 'MT',
     text: 'MT'
   },
   {
     key: 'NE',
-    value: 'Nebraska',
+    value: 'NE',
     text: 'NE'
   },
   {
     key: 'NV',
-    value: 'Nevada',
+    value: 'NV',
     text: 'NV'
   },
   {
     key: 'NH',
-    value: 'New Hampshire',
+    value: 'NH',
     text: 'NH'
   },
   {
     key: 'NJ',
-    value: 'New Jersey',
+    value: 'NJ',
     text: 'NJ'
   },
   {
     key: 'NM',
-    value: 'New Mexico',
+    value: 'NM',
     text: 'NM'
   },
   {
     key: 'NY',
-    value: 'New York',
+    value: 'NY',
     text: 'NY'
   },
   {
     key: 'NC',
-    value: 'North Carolina',
+    value: 'NC',
     text: 'NC'
   },
   {
     key: 'ND',
-    value: 'North Dakota',
+    value: 'ND',
     text: 'ND'
   },
   {
     key: 'MP',
-    value: 'Northern Mariana Islands',
+    value: 'MP',
     text: 'MP'
   },
   {
     key: 'OH',
-    value: 'Ohio',
+    value: 'OH',
     text: 'OH'
   },
   {
     key: 'OK',
-    value: 'Oklahoma',
+    value: 'OK',
     text: 'OK'
   },
   {
     key: 'OR',
-    value: 'Oregon',
+    value: 'OR',
     text: 'OR'
   },
   {
     key: 'PW',
-    value: 'Palau',
+    value: 'PW',
     text: 'PW'
   },
   {
     key: 'PA',
-    value: 'Pennsylvania',
+    value: 'PA',
     text: 'PA'
   },
   {
     key: 'PR',
-    value: 'Puerto Rico',
+    value: 'PR',
     text: 'PR'
   },
   {
     key: 'RI',
-    value: 'Rhode Island',
+    value: 'RI',
     text: 'RI'
   },
   {
     key: 'SC',
-    value: 'South Carolina',
+    value: 'SC',
     text: 'SC'
   },
   {
     key: 'SD',
-    value: 'South Dakota',
+    value: 'SD',
     text: 'SD'
   },
   {
     key: 'TN',
-    value: 'Tennessee',
+    value: 'TN',
     text: 'TN'
   },
   {
     key: 'TX',
-    value: 'Texas',
+    value: 'TX',
     text: 'TX'
   },
   {
     key: 'UT',
-    value: 'Utah',
+    value: 'UT',
     text: 'UT'
   },
   {
     key: 'VT',
-    value: 'Vermont',
+    value: 'VT',
     text: 'VT'
   },
   {
     key: 'VI',
-    value: 'Virgin Islands',
+    value: 'VI',
     text: 'VI'
   },
   {
     key: 'VA',
-    value: 'Virginia',
+    value: 'VA',
     text: 'VA'
   },
   {
     key: 'WA',
-    value: 'Washington',
+    value: 'WA',
     text: 'WA'
   },
   {
     key: 'WV',
-    value: 'West Virginia',
+    value: 'WV',
     text: 'WV'
   },
   {
     key: 'WI',
-    value: 'Wisconsin',
+    value: 'WI',
     text: 'WI'
   },
   {
     key: 'WY',
-    value: 'Wyoming',
+    value: 'WY',
     text: 'WY'
   }
 ];
