@@ -15,13 +15,53 @@
 .restaurant.home.icon .overlay .table-wrapper {
   width: 100%;
   height: 100%;
-  display: table;
-  vertical-align: middle;
-  text-align: center;
 }
 
-.restaurant.home.icon .overlay .table-wrapper .edit-icon {
+.restaurant.home.icon .overlay .icon-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+
+.restaurant.home.icon .overlay .edit-icon {
+  width: 100%;
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
   opacity: 0.45;
+}
+
+.restaurant.home.icon .icon-wrapper .input-file-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: table;
+  margin-left: -100%;
+  border-radius: 50%;
+}
+
+.restaurant.home.icon .input-file-wrapper .input-file {
+  width: 100%;
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  background: yellow;
+  opacity: 0;
+  border-radius: 50%;
+}
+
+.restaurant.home.icon .restaurant-icon-image-upload {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: table-cell;
+  verticalalign: middle;
+  textalign: center;
+  opacity: 1;
+  background: red;
 }
 
 .restaurant.home.icon .restaurant-icon-edit-button {

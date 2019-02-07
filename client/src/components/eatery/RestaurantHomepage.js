@@ -21,7 +21,7 @@ class RestaurantHomepage extends Component {
   state = {
     data: null,
     isHovered: false,
-    editMode: false,
+    editMode: true,
     editedState: null
   };
 
@@ -86,15 +86,17 @@ class RestaurantHomepage extends Component {
             src="https://pbs.twimg.com/profile_images/1090980773270679552/iIQYFsU1_400x400.jpg"
           />
           <div className="overlay">
-            <div className="table-wrapper">
-              <button
-                className="restaurant-icon-edit-button"
-                onClick={() => console.log('hello world')}
-              >
-                <Icon name="image" className="edit-icon" size="huge" />
-              </button>
-              <input type="file" name="icon" accept="image/jpeg" />
-            </div>
+            <label htmlFor="upload" className="icon-wrapper">
+              <Icon name="image" className="edit-icon" size="huge" />
+              <div className="input-file-wrapper">
+                <input
+                  type="file"
+                  className="input-file"
+                  name="icon"
+                  accept="image/jpeg"
+                />
+              </div>
+            </label>
           </div>
         </div>
       );
