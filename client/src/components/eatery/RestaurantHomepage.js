@@ -22,7 +22,8 @@ class RestaurantHomepage extends Component {
     data: null,
     isHovered: false,
     editMode: true,
-    editedState: null
+    editedState: null,
+    iconImageFile: null
   };
 
   async componentDidMount() {
@@ -48,8 +49,8 @@ class RestaurantHomepage extends Component {
       <Container>
         <Grid>
           <Grid.Column width={3}>
-            {this.renderRestaurantIcon()}
             <Form size="mini" onSubmit={this.handleEditSubmit}>
+              {this.renderRestaurantIcon()}
               {this.renderRestaurantName()}
               {this.renderRestaurantAddress()}
               {this.renderCityStateZip()}
@@ -76,6 +77,10 @@ class RestaurantHomepage extends Component {
     );
   }
 
+  onImageFileChange = event => {
+    this.setState({ iconImageFile: event.target.files[0] });
+  };
+
   // Render elements methods
   renderRestaurantIcon = () => {
     if (this.state.editMode) {
@@ -90,10 +95,11 @@ class RestaurantHomepage extends Component {
               <Icon name="image" className="edit-icon" size="huge" />
               <div className="input-file-wrapper">
                 <input
+                  onChange={this.onImageFileChange}
                   type="file"
                   className="input-file"
-                  name="icon"
-                  accept="image/jpeg"
+                  name="iconImageFile"
+                  accept="image/*"
                 />
               </div>
             </label>
@@ -217,7 +223,7 @@ class RestaurantHomepage extends Component {
     this.setState({ editedState: value });
   };
 
-  handleEditSubmit = event => {
+  handleEditSubmit = async event => {
     const { name, streetAddr, city, zipcode, areaCode, phone } = event.target;
     let state = null;
     if (this.state.editedState) state = this.state.editedState;
@@ -232,8 +238,26 @@ class RestaurantHomepage extends Component {
       areaCode: areaCode.value,
       phone: phone.value
     };
+    const { iconImageFile } = this.state;
+    console.log(this.state.iconImageFile.type);
+    const uploadConfig = await axios.get('/api/upload/image');
+    // console.log(uploadConfig);
+    const { url } = uploadConfig.data;
+    const icon_image_url = uploadConfig.data.key;
 
-    console.log(requestData);
+    await axios.put(url, iconImageFile, {
+      headers: {
+        'Content-Type': iconImageFile.type
+      }
+    });
+
+    const apiRes = await axios.put('/api/eateries/update', {
+      ...requestData,
+      icon_image_url
+    });
+
+    console.log(apiRes);
+
     this.setState({ editMode: false });
   };
 

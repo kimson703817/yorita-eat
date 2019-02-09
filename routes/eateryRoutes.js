@@ -51,4 +51,53 @@ router.put('/add', requireLogin, async (req, res) => {
   }
 });
 
+router.put('/update', requireLogin, async (req, res) => {
+  const {
+    _id,
+    name,
+    streetAddr,
+    city,
+    state,
+    zipcode,
+    areaCode,
+    phone,
+    icon_image_url
+  } = req.body;
+  const userId = req.user._id;
+
+  try {
+    const db_res = await knex('eateries')
+      .where({
+        _id,
+        owner_id: userId
+      })
+      .update({
+        name,
+        streetAddr,
+        city,
+        state,
+        zipcode,
+        areaCode,
+        phone,
+        icon_image_url
+      })
+      .returning([
+        'owner_id',
+        '_id',
+        'name',
+        'streetAddr',
+        'city',
+        'state',
+        'zipcode',
+        'areaCode',
+        'phone',
+        'icon_image_url'
+      ]);
+    res.status(200).send(db_res[0]);
+  } catch (err) {
+    console.log(err);
+    res.status(err.status || 422).send(err);
+  }
+});
+
 module.exports = router;

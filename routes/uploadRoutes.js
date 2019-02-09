@@ -10,13 +10,26 @@ const s3 = new AWS.S3({
 });
 
 router.get('/', requireLogin, (req, res) => {
-  const key = `${req.user.id}/${uuid()}.jpeg`;
+  const key = `${req.user._id}/${uuid()}.jpeg`;
   s3.getSignedUrl(
     'putObject',
     {
       Bucket: keys.S3.Bucket,
       Key: key,
       ContentType: 'jpeg'
+    },
+    (err, url) => res.send({ key, url })
+  );
+});
+
+router.get('/image', requireLogin, (req, res) => {
+  const key = `${req.user._id}/${uuid()}.jpeg`;
+  s3.getSignedUrl(
+    'putObject',
+    {
+      Bucket: keys.S3.Bucket,
+      Key: key,
+      ContentType: 'image/jpeg'
     },
     (err, url) => res.send({ key, url })
   );
