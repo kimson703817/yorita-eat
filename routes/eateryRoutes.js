@@ -9,7 +9,17 @@ router.get('/:id', async (req, res) => {
     const db_res = await knex('eateries')
       .select()
       .where({ _id: id });
-    if (db_res.length) return res.send(db_res[0]);
+    if (db_res.length) {
+      const imageKey = db_res[0].icon_image_url;
+      if (!imageKey) {
+        db_res[0].icon_image_url =
+          'https://cdn3.iconfinder.com/data/icons/restaurant-flat-line/70/chicken-512.png';
+      } else {
+        db_res[0].icon_image_url = `https://s3-us-west-1.amazonaws.com/yorita-eat-bucket-dev/${imageKey}`;
+      }
+
+      return res.send(db_res[0]);
+    }
   } catch (err) {
     console.log(err);
     res.status(err.status || 422).send(err);
@@ -93,6 +103,14 @@ router.put('/update', requireLogin, async (req, res) => {
         'phone',
         'icon_image_url'
       ]);
+    const imageKey = db_res[0].icon_image_url;
+    if (!imageKey) {
+      db_res[0].icon_image_url =
+        'https://cdn3.iconfinder.com/data/icons/restaurant-flat-line/70/chicken-512.png';
+    } else {
+      db_res[0].icon_image_url = `https://s3-us-west-1.amazonaws.com/yorita-eat-bucket-dev/${imageKey}`;
+    }
+    db_res[0].user_id = userId;
     res.status(200).send(db_res[0]);
   } catch (err) {
     console.log(err);

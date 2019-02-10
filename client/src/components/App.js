@@ -8,6 +8,7 @@ import OwnerWelcome from './user/owner/OwnerWelcome';
 import AddRestaurantForm from './user/owner/AddRestaurantForm';
 import RestaurantInfoForm from './user/owner/RestaurantInfoForm';
 import RestaurantHomepage from './eatery/RestaurantHomepage';
+// import UglyRestaurantHomepage from './eatery/UglyRestaurantHomepage';
 const Discover = () => <h2>Discover</h2>;
 const Trending = () => <h2>Trending</h2>;
 const Home = () => <h2>Homepage</h2>;

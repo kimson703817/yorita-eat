@@ -1,0 +1,8 @@
+.fields.restaurant.edit.phone .area-code {
+  width: 4rem;
+}
+
+.fields.restaurant.edit.phone .phone {
+  width: 9rem;
+  text-align: right;
+}

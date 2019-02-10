@@ -1,0 +1,18 @@
+.required.field.restaurant.edit.state .ui.fluid.selection.dropdown {
+  padding-left: 0.5rem;
+}
+
+.required.field.restaurant.edit.state .item {
+  text-align: center;
+}
+
+.required.field.restaurant.edit.state .item .text {
+  position: absolute;
+  font-size: 0.8rem;
+  transform: translate(-50%, -50%);
+}
+
+.required.field.restaurant.edit.zip {
+  width: 6rem;
+  text-align: center;
+}
