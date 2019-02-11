@@ -2,6 +2,14 @@ const knex = require('../db/knex');
 const passport = require('passport');
 const requireLogin = require('../middlewares/requireLogin');
 const router = require('express').Router();
+const { deleteResourceObject } = require('../middlewares/s3_manager');
+
+// Helpers
+const generateResourceUrl = key => {
+  if (key)
+    return `https://s3-us-west-1.amazonaws.com/yorita-eat-bucket-dev/${key}`;
+  return 'https://cdn3.iconfinder.com/data/icons/restaurant-flat-line/70/chicken-512.png';
+};
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
@@ -10,13 +18,7 @@ router.get('/:id', async (req, res) => {
       .select()
       .where({ _id: id });
     if (db_res.length) {
-      const imageKey = db_res[0].icon_image_url;
-      if (!imageKey) {
-        db_res[0].icon_image_url =
-          'https://cdn3.iconfinder.com/data/icons/restaurant-flat-line/70/chicken-512.png';
-      } else {
-        db_res[0].icon_image_url = `https://s3-us-west-1.amazonaws.com/yorita-eat-bucket-dev/${imageKey}`;
-      }
+      db_res[0].icon_imageUrl = generateResourceUrl(db_res[0].icon_imageKey);
 
       return res.send(db_res[0]);
     }
@@ -61,61 +63,63 @@ router.put('/add', requireLogin, async (req, res) => {
   }
 });
 
-router.put('/update', requireLogin, async (req, res) => {
-  const {
-    _id,
-    name,
-    streetAddr,
-    city,
-    state,
-    zipcode,
-    areaCode,
-    phone,
-    icon_image_url
-  } = req.body;
-  const userId = req.user._id;
+router.put(
+  '/update',
+  requireLogin,
+  async (req, res, next) => {
+    const {
+      _id,
+      name,
+      streetAddr,
+      city,
+      state,
+      zipcode,
+      areaCode,
+      phone,
+      icon_imageKey,
+      old_imageKey
+    } = req.body;
+    req.body.s3_bucketKey = old_imageKey;
+    const userId = req.user._id;
 
-  try {
-    const db_res = await knex('eateries')
-      .where({
-        _id,
-        owner_id: userId
-      })
-      .update({
-        name,
-        streetAddr,
-        city,
-        state,
-        zipcode,
-        areaCode,
-        phone,
-        icon_image_url
-      })
-      .returning([
-        'owner_id',
-        '_id',
-        'name',
-        'streetAddr',
-        'city',
-        'state',
-        'zipcode',
-        'areaCode',
-        'phone',
-        'icon_image_url'
-      ]);
-    const imageKey = db_res[0].icon_image_url;
-    if (!imageKey) {
-      db_res[0].icon_image_url =
-        'https://cdn3.iconfinder.com/data/icons/restaurant-flat-line/70/chicken-512.png';
-    } else {
-      db_res[0].icon_image_url = `https://s3-us-west-1.amazonaws.com/yorita-eat-bucket-dev/${imageKey}`;
+    try {
+      const db_res = await knex('eateries')
+        .where({
+          _id,
+          owner_id: userId
+        })
+        .update({
+          name,
+          streetAddr,
+          city,
+          state,
+          zipcode,
+          areaCode,
+          phone,
+          icon_imageKey
+        })
+        .returning([
+          'owner_id',
+          '_id',
+          'name',
+          'streetAddr',
+          'city',
+          'state',
+          'zipcode',
+          'areaCode',
+          'phone',
+          'icon_imageKey'
+        ]);
+      db_res[0].icon_imageUrl = generateResourceUrl(db_res[0].icon_imageKey);
+      db_res[0].user_id = userId;
+      res.status(200).send(db_res[0]);
+      next();
+    } catch (err) {
+      console.log(err);
+      res.status(err.status || 422).send(err);
     }
-    db_res[0].user_id = userId;
-    res.status(200).send(db_res[0]);
-  } catch (err) {
-    console.log(err);
-    res.status(err.status || 422).send(err);
-  }
-});
+  },
+  deleteResourceObject
+);
 
 module.exports = router;

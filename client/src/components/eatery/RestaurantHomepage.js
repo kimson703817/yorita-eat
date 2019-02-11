@@ -31,7 +31,6 @@ class RestaurantHomepage extends Component {
 
       this.setState({ data: { ...data, user_id: user_id } });
     } catch (error) {
-      console.log('wassup');
       this.setState({ data: null });
     }
   }

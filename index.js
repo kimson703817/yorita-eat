@@ -29,7 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', routes.auth);
 app.use('/api/eatery', routes.eatery);
-app.use('/api/upload', routes.upload);
+app.use('/api/resource', routes.resource);
 
 if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets

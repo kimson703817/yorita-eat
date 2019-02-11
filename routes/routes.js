@@ -1,9 +1,9 @@
 const auth = require('./authRoutes');
 const eatery = require('./eateryRoutes');
-const upload = require('./uploadRoutes');
+const resource = require('./resourceRoutes');
 
 module.exports = {
   auth,
   eatery,
-  upload
+  resource
 };

@@ -22,7 +22,7 @@ router.get('/', requireLogin, (req, res) => {
   );
 });
 
-router.get('/image', requireLogin, (req, res) => {
+router.get('/upload/image', requireLogin, (req, res) => {
   const key = `${req.user._id}/${uuid()}.jpeg`;
   s3.getSignedUrl(
     'putObject',

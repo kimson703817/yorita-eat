@@ -18,7 +18,7 @@ class RestaurantInfo extends Component {
     super(props);
     this.state = {
       selectedState: props.data.state,
-      iconImageFile: null
+      icon_imageFile: null
     };
   }
 
@@ -38,31 +38,33 @@ class RestaurantInfo extends Component {
       areaCode: areaCode.value,
       phone: phone.value
     };
-    const { iconImageFile } = this.state;
+    const { icon_imageFile } = this.state;
 
     // console.log(this.props.data);
     // console.log(requestData);
-    // console.log(iconImageFile.type);
-    const uploadConfig = await axios.get('/api/upload/image');
+    // console.log(icon_imageFile.type);
+    const uploadConfig = await axios.get('/api/resource/upload/image');
     const { url } = uploadConfig.data;
-    const icon_image_url = uploadConfig.data.key;
+    const icon_imageKey = uploadConfig.data.key;
+    const old_imageKey = this.props.data.icon_imageKey;
 
-    await axios.put(url, iconImageFile, {
+    await axios.put(url, icon_imageFile, {
       headers: {
-        'Content-Type': iconImageFile.type
+        'Content-Type': icon_imageFile.type
       }
     });
 
     const apiRes = await axios.put('/api/eatery/update', {
       ...requestData,
-      icon_image_url
+      icon_imageKey,
+      old_imageKey
     });
 
     this.props.onDataEdit(apiRes.data);
   };
 
   onIconSelect = file => {
-    this.setState({ iconImageFile: file });
+    this.setState({ icon_imageFile: file });
   };
 
   onStateSelect = state => {
@@ -70,11 +72,11 @@ class RestaurantInfo extends Component {
   };
 
   getIconSrc = () => {
-    const { iconImageFile } = this.state;
-    const { icon_image_url } = this.props.data;
+    const { icon_imageFile } = this.state;
+    const { icon_imageUrl } = this.props.data;
 
-    if (iconImageFile) return URL.createObjectURL(iconImageFile);
-    return icon_image_url;
+    if (icon_imageFile) return URL.createObjectURL(icon_imageFile);
+    return icon_imageUrl;
   };
 
   getFullAddress = () => {
