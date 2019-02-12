@@ -3,12 +3,12 @@ const passport = require('passport');
 const requireLogin = require('../middlewares/requireLogin');
 const router = require('express').Router();
 const { deleteResourceObject } = require('../middlewares/s3_manager');
+const keys = require('../config/keys');
 
 // Helpers
 const generateResourceUrl = key => {
-  if (key)
-    return `https://s3-us-west-1.amazonaws.com/yorita-eat-bucket-dev/${key}`;
-  return 'https://cdn3.iconfinder.com/data/icons/restaurant-flat-line/70/chicken-512.png';
+  if (key) return `${keys.storageServiceProvider}/${keys.S3.Bucket}/${key}`;
+  return keys.placeholderImages.restaurantIcon;
 };
 
 router.get('/:id', async (req, res) => {

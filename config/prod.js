@@ -13,5 +13,9 @@ module.exports = {
   },
   S3: {
     Bucket: process.env.S3_BUCKET_NAME
+  },
+  storageServiceProvider: process.env.STORAGE_SERVICE_PROVIDER,
+  placeholderImages: {
+    restaurantIcon: process.env.PLACEHOLDER_RESTAURANT_ICON
   }
 };
