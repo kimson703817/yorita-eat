@@ -3,12 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Grid } from 'semantic-ui-react';
 
-// import { sendRequest } from '../../actions';
-
-// import { stateOptions } from '../form_builders/utils/stateOptions';
-// import './css/restaurantHomepage.css';
-
 import RestaurantInfo from './RestaurantInfo/RestaurantInfo';
+import RestaurantMenu from './RestaurantMenu/RestaurantMenu';
 
 class RestaurantHomepage extends Component {
   state = {
@@ -31,7 +27,7 @@ class RestaurantHomepage extends Component {
 
       this.setState({ data: { ...data, user_id: user_id } });
     } catch (error) {
-      this.setState({ data: null });
+      this.setState({ data: false });
     }
   }
 
@@ -54,10 +50,17 @@ class RestaurantHomepage extends Component {
 
   render() {
     const { data, editMode } = this.state;
-    if (!data) return <div>Not Found</div>;
+    switch (data) {
+      case null:
+        return null;
+      case false:
+        return <div>Not Found</div>;
+      default:
+        break;
+    }
 
     return (
-      <Container>
+      <Container style={{ marginTop: '3.5rem' }}>
         <Grid>
           <Grid.Column width={3}>
             <RestaurantInfo
@@ -66,6 +69,9 @@ class RestaurantHomepage extends Component {
               onEditClick={this.handleEditMode}
               onDataEdit={this.onDataEdit}
             />
+          </Grid.Column>
+          <Grid.Column>
+            <RestaurantMenu editMode={editMode} />
           </Grid.Column>
         </Grid>
       </Container>

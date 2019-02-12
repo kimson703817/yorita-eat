@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 
 import { Button, Form } from 'semantic-ui-react';
 
-// import { sendRequest } from '../../actions';
-
-// import { stateOptions } from '../form_builders/utils/stateOptions';
 import './restaurantInfo.css';
 
 import RestaurantIcon from './components/RestaurantIcon';
@@ -40,9 +37,6 @@ class RestaurantInfo extends Component {
     };
     const { icon_imageFile } = this.state;
 
-    // console.log(this.props.data);
-    // console.log(requestData);
-    // console.log(icon_imageFile.type);
     const uploadConfig = await axios.get('/api/resource/upload/image');
     const { url } = uploadConfig.data;
     const icon_imageKey = uploadConfig.data.key;

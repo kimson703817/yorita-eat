@@ -32,7 +32,7 @@ class RestaurantIcon extends Component {
     }
 
     return (
-      <div>
+      <div className="restaurant contact">
         {`${areaCode}`}-{`${phone.slice(0, 3)}-${phone.slice(3)}`}
       </div>
     );

@@ -15,7 +15,7 @@ class RestaurantAddress extends Component {
         <Form.Input required defaultValue={streetAddr} name="streetAddr" />
       );
     }
-    return <div>{streetAddr}</div>;
+    return <div className="restaurant contact">{streetAddr}</div>;
   };
 
   handleStateSelect = (event, { value }) => {
@@ -50,7 +50,9 @@ class RestaurantAddress extends Component {
         </div>
       );
     }
-    return <div>{`${city}, ${state} ${zipcode}`}</div>;
+    return (
+      <div className="restaurant contact">{`${city}, ${state} ${zipcode}`}</div>
+    );
   };
 
   render() {

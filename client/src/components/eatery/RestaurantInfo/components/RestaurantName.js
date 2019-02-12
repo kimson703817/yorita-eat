@@ -20,7 +20,7 @@ class RestaurantIcon extends Component {
     }
     return (
       <Header className="restaurant home name" as="h2">
-        {name} is the very best of all
+        {name}
       </Header>
     );
   }
