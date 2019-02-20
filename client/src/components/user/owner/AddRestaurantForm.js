@@ -29,8 +29,6 @@ class AddRestaurantForm extends Component {
     this.setState({
       isSubmitted: true
     });
-    // await axios.put('/api/eatery/add', this.state);
-    // <Redirect to="/owner/main" />;
   };
 
   redirectToNextStep = () => (

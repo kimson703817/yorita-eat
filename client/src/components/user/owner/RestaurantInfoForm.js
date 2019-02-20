@@ -12,6 +12,10 @@ import './css/restaurantInfoForm.css';
 class RestaurantInfoForm extends Component {
   state = { stateField: null, responseObject: null };
 
+  componentWillUnmount() {
+    this.props.onRequestSent();
+  }
+
   onSubmit = async event => {
     const { address, city, zipcode, areaCode, phone } = event.target;
     const { name } = this.props.requestData;
@@ -34,20 +38,6 @@ class RestaurantInfoForm extends Component {
     const res = await axios(req);
 
     this.setState({ responseObject: res });
-    this.props.onRequestSent();
-
-    // this.props.sendRequest(req);
-    // const responseObject = await axios.put(
-    //   '/api/eatery/add',
-    //   updatedRequestObject
-    // );
-
-    // this.props.composeReqObject(updatedRequestObject);
-    // this.setState({
-    //   isSubmitted: true
-    // });
-
-    // <Redirect to="/owner/main" />;
   };
 
   onSelectChange = (event, { value }) => {
