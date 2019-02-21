@@ -1,4 +1,5 @@
 const knex = require('../db/knex');
+const isOwner = require('../middlewares/isOwner');
 const passport = require('passport');
 const requireLogin = require('../middlewares/requireLogin');
 const router = require('express').Router();
@@ -11,7 +12,7 @@ const generateResourceUrl = key => {
   return keys.placeholderImages.restaurantIcon;
 };
 
-const getEateryInfoFromBody = body => {
+const getEateryDataFromBody = body => {
   return {
     name: body.name,
     streetAddr: body.streetAddr,
@@ -21,6 +22,14 @@ const getEateryInfoFromBody = body => {
     areaCode: body.areaCode,
     phone: body.phone,
     icon_imageKey: body.icon_imageKey
+  };
+};
+
+const getMenuDataFromBody = body => {
+  return {
+    eateries_id: body.eateries_id,
+    name: body.name,
+    price: body.price
   };
 };
 
@@ -45,7 +54,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/add', requireLogin, async (req, res) => {
-  const bodyInfo = getEateryInfoFromBody(req.body);
+  const bodyInfo = getEateryDataFromBody(req.body);
   const owner_id = req.user._id;
   const objectToInsert = { ...bodyInfo, owner_id };
 
@@ -77,7 +86,7 @@ router.put(
     const { _id, old_imageKey } = req.body;
     req.body.s3_bucketKey = old_imageKey;
     const userId = req.user._id;
-    const objectToUpdate = getEateryInfoFromBody(req.body);
+    const objectToUpdate = getEateryDataFromBody(req.body);
 
     try {
       const db_res = await knex('eateries')
@@ -106,5 +115,19 @@ router.put(
   },
   deleteResourceObject
 );
+
+router.put('/menu', requireLogin, isOwner, async (req, res, next) => {
+  const objectToInsert = getMenuDataFromBody(req.body);
+
+  try {
+    const db_res = await knex('menuItems')
+      .insert(objectToInsert)
+      .returning(['name', 'price']);
+    res.status(201).send(db_res[0]);
+  } catch (err) {
+    console.log(err);
+    res.status(err.status || 422).send(err);
+  }
+});
 
 module.exports = router;

@@ -70,7 +70,7 @@ class RestaurantHomepage extends Component {
               onDataEdit={this.onDataEdit}
             />
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column width={12}>
             <RestaurantMenu editMode={editMode} />
           </Grid.Column>
         </Grid>
