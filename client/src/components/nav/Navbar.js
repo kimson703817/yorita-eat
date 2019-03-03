@@ -32,7 +32,12 @@ class Navbar extends Component {
   render() {
     const userIcon = this.renderIcon();
     const items = [
-      { key: 'homeRoute', as: Link, to: '/', name: 'home' },
+      {
+        key: 'homeRoute',
+        as: Link,
+        to: '/',
+        name: 'home'
+      },
       { key: 'discoverRoute', as: Link, to: '/discover/joy', name: 'discover' },
       {
         key: 'trendingRoute',
@@ -44,9 +49,17 @@ class Navbar extends Component {
     ];
 
     return (
-      <Container>
-        <Menu items={items} size="large" />
-      </Container>
+      <Menu borderless size="large">
+        <Container>
+          <Menu.Item as={Link} to="/" name="home" />
+          <Menu.Item as={Link} to="/discover/joy" name="discover" />
+          <Menu.Item
+            as={Link}
+            to="/trending/taste-it-while-its-hot"
+            name="trending"
+          />
+        </Container>
+      </Menu>
     );
   }
 }
