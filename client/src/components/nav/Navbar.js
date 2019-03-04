@@ -49,17 +49,23 @@ class Navbar extends Component {
     ];
 
     return (
-      <Menu borderless size="large">
-        <Container>
-          <Menu.Item as={Link} to="/" name="home" />
-          <Menu.Item as={Link} to="/discover/joy" name="discover" />
-          <Menu.Item
-            as={Link}
-            to="/trending/taste-it-while-its-hot"
-            name="trending"
-          />
+      <div>
+        <Container textAlign="center">
+          <h1>Yorita Eat</h1>
         </Container>
-      </Menu>
+
+        <Menu className="main-nav" borderless size="large">
+          <Container>
+            <Menu.Item as={Link} to="/" name="home" />
+            <Menu.Item as={Link} to="/discover/joy" name="discover" />
+            <Menu.Item
+              as={Link}
+              to="/trending/taste-it-while-its-hot"
+              name="trending"
+            />
+          </Container>
+        </Menu>
+      </div>
     );
   }
 }

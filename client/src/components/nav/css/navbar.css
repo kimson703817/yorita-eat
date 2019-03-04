@@ -2,3 +2,13 @@
   background-color: #ff6347 !important;
   padding: auto !important;
 }
+
+.ui.menu.main-nav {
+  border: 0 !important;
+  box-shadow: none;
+  text-align: center !important;
+}
+
+.ui.menu.main-nav .ui.container {
+  text-align: center !important;
+}
