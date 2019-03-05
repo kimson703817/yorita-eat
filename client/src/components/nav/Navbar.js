@@ -7,11 +7,23 @@ class MainNav extends Component {
   render() {
     return (
       <div>
-        <div style={{ background: 'blue' }} className="container">
-          <div className="navbar-brand">Yorita Eat</div>
-        </div>
         <div className="container">
-          <div className="navbar navbar-expand-md navbar-light bg-light">
+          <div className="row">
+            <div className="col-sm" />
+            <div style={{ textAlign: 'center' }} className="col-sm">
+              <div style={{ fontSize: '2.5rem' }} className="navbar-brand">
+                Yorita Eat
+              </div>
+            </div>
+            <div style={{ textAlign: 'right' }} className="col-sm">
+              <div>Sign In</div>
+              <div>Register</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="navbar navbar-expand-md navbar-light">
+          <div className="container">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
                 <NavLink
