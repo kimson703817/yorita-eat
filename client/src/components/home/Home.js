@@ -1,77 +1,58 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Container, Menu } from 'semantic-ui-react';
-import UserIcon from './UserIcon';
 
-class Navbar extends Component {
-  renderIcon() {
-    switch (this.props.auth) {
-      case null:
-        return;
-      case false:
-        const loginButton = {
-          key: 'home',
-          position: 'right',
-          as: 'a',
-          href: '/auth/twitter',
-          name: 'login'
-        };
-        return loginButton;
-      default:
-        const userIcon = {
-          key: 'icon',
-          position: 'right',
-          as: 'span',
-          content: <UserIcon />
-        };
-        return userIcon;
-    }
-  }
-
+class Home extends Component {
   render() {
-    const userIcon = this.renderIcon();
-    const items = [
-      {
-        key: 'homeRoute',
-        as: Link,
-        to: '/',
-        name: 'home'
-      },
-      { key: 'discoverRoute', as: Link, to: '/discover/joy', name: 'discover' },
-      {
-        key: 'trendingRoute',
-        as: Link,
-        to: '/trending/taste-it-while-its-hot',
-        name: 'trending'
-      },
-      userIcon
-    ];
-
     return (
-      <div>
-        <Container textAlign="center">
-          <h1>Yorita Eat</h1>
-        </Container>
-
-        <Menu className="main-nav" borderless size="large">
-          <Container>
-            <Menu.Item as={Link} to="/" name="home" />
-            <Menu.Item as={Link} to="/discover/joy" name="discover" />
-            <Menu.Item
-              as={Link}
-              to="/trending/taste-it-while-its-hot"
-              name="trending"
+      <div
+        id="homepageCarousel"
+        className="carousel slide"
+        data-ride="carousel"
+      >
+        <ol className="carousel-indicators">
+          <li
+            data-target="#homepageCarousel"
+            data-slide-to="0"
+            className="active"
+          />
+          <li
+            data-target="#homepageCarousel"
+            data-slide-to="1"
+            className="active"
+          />
+          <li
+            data-target="#homepageCarousel"
+            data-slide-to="2"
+            className="active"
+          />
+        </ol>
+        <div className="carousel-inner">
+          <div className="carousel-item active">
+            <img
+              style={{ width: '100%', height: '34rem', objectFit: 'cover' }}
+              src="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+              alt="Feature 1"
             />
-          </Container>
-        </Menu>
+          </div>
+          <div className="carousel-item">
+            <img
+              style={{ width: '100%', height: '34rem', objectFit: 'cover' }}
+              src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+              alt="Feature 2"
+            />
+          </div>
+          <div className="carousel-item">
+            <img
+              style={{ width: '100%', height: '34rem', objectFit: 'cover' }}
+              src="https://images.pexels.com/photos/5938/food-salad-healthy-lunch.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+              alt="Feature 3"
+            />
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  return { auth };
-};
-
-export default connect(mapStateToProps)(Navbar);
+export default Home;

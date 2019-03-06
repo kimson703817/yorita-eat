@@ -54,7 +54,13 @@ class AddRestaurantForm extends Component {
         }
       ]
     };
-    return <YoritaUserForm options={formOptions} formClass="new restaurant" />;
+    return (
+      <input
+        className="form-control form-control-lg"
+        type="text"
+        placeholder="Restaurant Name"
+      />
+    );
   };
 
   render() {

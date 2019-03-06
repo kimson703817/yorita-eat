@@ -9,9 +9,10 @@ import AddRestaurantForm from './user/owner/AddRestaurantForm';
 import RestaurantInfoForm from './user/owner/RestaurantInfoForm';
 import RestaurantHomepage from './eatery/RestaurantHomepage';
 
+import Home from './home/Home';
+
 const Discover = () => <h2>Discover</h2>;
 const Trending = () => <h2>Trending</h2>;
-const Home = () => <h2>Homepage</h2>;
 
 class App extends Component {
   componentDidMount() {

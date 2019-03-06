@@ -3,12 +3,7 @@
   padding: auto !important;
 }
 
-.ui.menu.main-nav {
-  border: 0 !important;
-  box-shadow: none;
-  text-align: center !important;
-}
-
-.ui.menu.main-nav .ui.container {
-  text-align: center !important;
+.nav-item.main-item > .nav-link {
+  font-size: 1.3rem;
+  background: blue;
 }

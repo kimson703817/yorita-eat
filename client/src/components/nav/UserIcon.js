@@ -23,12 +23,22 @@ const userOptions = [
 ];
 
 const UserIcon = () => (
-  <Dropdown
-    className="nav-dropdown"
-    button
-    trigger={trigger}
-    options={userOptions}
-  />
+  <div className="dropdown">
+    <button
+      className="btn dropdown-toggle"
+      type="button"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Hello, User
+    </button>
+    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <Link to="/owner/heartfelt-welcome" className="dropdown-item">
+        Become an Owner
+      </Link>
+    </div>
+  </div>
 );
 
 export default UserIcon;
