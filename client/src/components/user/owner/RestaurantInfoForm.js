@@ -3,11 +3,41 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
+import Octicon, { ChevronRight } from '@githubprimer/octicons-react';
 
 import { onRequestSent } from '../../../actions';
 import { stateOptions } from '../../form_builders/utils/stateOptions';
 
 import './css/restaurantInfoForm.css';
+
+const formInputs = [
+  {
+    className: 'form-control form-control-lg center-inputText mb-3',
+    type: 'text',
+    label: 'Name',
+    name: 'name',
+    placeholder: 'Your Address',
+    required: true,
+    autoComplete: 'off'
+  },
+  {
+    className: 'form-control form-control-lg center-inputText mb-3',
+    type: 'text',
+    label: 'City',
+    name: 'city',
+    placeholder: 'City',
+    required: true,
+    autoComplete: 'off'
+  }
+];
+
+// <input
+//       className={className}
+//       type="text"
+//       name={name}
+//       placeholder={placeholder}
+//       required
+//       autoComplete="off"
 
 class RestaurantInfoForm extends Component {
   state = { stateField: null, responseObject: null };
@@ -44,6 +74,17 @@ class RestaurantInfoForm extends Component {
     this.setState({ stateField: value });
   };
 
+  renderTextInput = (name, className, placeholder) => (
+    <input
+      className={className}
+      type="text"
+      name={name}
+      placeholder={placeholder}
+      required
+      autoComplete="off"
+    />
+  );
+
   render() {
     if (this.state.responseObject) {
       const { data } = this.state.responseObject;
@@ -58,73 +99,50 @@ class RestaurantInfoForm extends Component {
         />
       );
     }
-    if (!this.props.requestData) return <Redirect to="/owner/new-restaurant" />;
+    // if (!this.props.requestData) return <Redirect to="/owner/new-restaurant" />;
     return (
-      <div className="form info center">
-        <h1>{this.props.requestData.name}</h1>
-        <Form
-          className="restaurantInfo"
-          autoComplete="off"
-          size="mini"
-          onSubmit={this.onSubmit}
-        >
-          <Form.Input required label="Address" name="address" />
-          <Form.Group>
-            <Form.Input
-              className="address city"
-              required
-              label="City"
-              name="city"
-            />
-            <Form.Dropdown
-              className="address state"
-              required
-              label="State"
-              name="state"
-              search
-              selection
-              options={stateOptions}
-              onChange={this.onSelectChange}
-            />
-            <Form.Input
-              className="address zip"
-              required
-              type="text"
-              pattern="[0-9]{5}"
-              label="Zipcode"
-              name="zipcode"
-            />
-          </Form.Group>
-          <span className="field">
-            <label>Phone</label>
-          </span>
-          <Form.Group className="phone">
-            <span>(</span>
-            <Form.Input
-              type="tel"
-              maxLength="3"
-              className="phone area"
-              name="areaCode"
-            />
-            <span>)</span>
-            <Form.Input
-              type="tel"
-              maxLength="7"
-              className="phone"
-              name="phone"
-            />
-          </Form.Group>
-          <Form.Input type="time" label="Business hours" name="hours" />
-          <div style={{ textAlign: 'center' }}>
-            <Form.Button color="red" content="Submit" />
+      <div>
+        {/*<h1>{this.props.requestData.name}</h1>*/}
+        <form onSubmit={this.onSubmit}>
+          <div className="form-row">
+            <div className="align-self-center mx-auto col-3 center-inputText">
+              <label className="col-form-label-lg label-top-lg">Address</label>
+              {this.renderTextInput(
+                'address',
+                'form-control form-control-lg center-inputText mb-3',
+                'Your Address'
+              )}
+              <label className="col-form-label-lg label-top-lg">City</label>
+              {this.renderTextInput(
+                'city',
+                'form-control form-control-lg center-inputText mb-3',
+                'City'
+              )}
+              <select class="custom-select">
+                <option selected>state</option>
+                <option value="AL">AL</option>
+                <option value="CA">CA</option>
+                <option value="MN">MN</option>
+              </select>
+              <button
+                type="submit"
+                className="btn-lg main-app-color"
+                style={{ minWidth: '15%', border: '0' }}
+              >
+                <span style={{ marginRight: '0.25rem' }}>Go</span>
+                <Octicon verticalAlign="middle" icon={ChevronRight} />
+              </button>
+            </div>
           </div>
-        </Form>
+        </form>
       </div>
     );
   }
 }
 
 const mapStateToProps = ({ requestData }) => {
+  console.log('I am sunny');
+  console.log(requestData);
   return { requestData };
 };
 

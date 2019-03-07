@@ -5,8 +5,21 @@
   text-align: center;
 }*/
 
-.text.centered {
-  text-align: center !important;
+.center-inputText {
+  text-align: center;
+}
+
+.center-inputField {
+  text-align: center;
+}
+
+.label-top-lg {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.main-app-color {
+  background: #ff6435;
 }
 
 .ui.massive.form.new.restaurant {

@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { Form } from 'semantic-ui-react';
 // import axios from 'axios';
+import Octicon, { ChevronRight } from '@githubprimer/octicons-react';
 
 import { composeReqObject } from '../../../actions';
 
 import './css/addRestaurantForm.css';
-
-import YoritaUserForm from '../../form_builders/YoritaUserForm';
 
 class AddRestaurantForm extends Component {
   state = {};
@@ -20,6 +18,7 @@ class AddRestaurantForm extends Component {
     });
 
   onSubmit = event => {
+    event.preventDefault();
     const { value } = event.target.name;
     const requestObject = {
       name: value
@@ -36,30 +35,32 @@ class AddRestaurantForm extends Component {
   );
 
   renderForm = () => {
-    const submitButton = <Form.Button content="Go" />;
-    const formOptions = {
-      onSubmit: this.onSubmit,
-      submitButton: submitButton,
-      fields: [
-        {
-          label: 'Name of your Happy Place',
-          key: 'ENTER_RESTAURANT_NAME_FIELD',
-          icon: 'arrow right',
-          inputProps: {
-            autoComplete: 'off',
-            className: 'text centered',
-            name: 'name',
-            placeholder: 'Restaurant Name'
-          }
-        }
-      ]
-    };
     return (
-      <input
-        className="form-control form-control-lg"
-        type="text"
-        placeholder="Restaurant Name"
-      />
+      <form onSubmit={this.onSubmit}>
+        <div style={{ height: '60vh' }} className="form-row">
+          <div className="align-self-center mx-auto col-3 center-inputText">
+            <label className="col-form-label-lg label-top-lg">
+              Enter the name of your happy place
+            </label>
+            <input
+              className="form-control form-control-lg center-inputText mb-3"
+              type="text"
+              name="name"
+              placeholder="Restaurant Name"
+              required
+              autoComplete="off"
+            />
+            <button
+              type="submit"
+              className="btn-lg main-app-color"
+              style={{ minWidth: '15%', border: '0' }}
+            >
+              <span style={{ marginRight: '0.25rem' }}>Go</span>
+              <Octicon verticalAlign="middle" icon={ChevronRight} />
+            </button>
+          </div>
+        </div>
+      </form>
     );
   };
 
