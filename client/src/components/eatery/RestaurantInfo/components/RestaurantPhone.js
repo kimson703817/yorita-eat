@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Form } from 'semantic-ui-react';
-
 import './css/restaurantPhone.css';
 
 class RestaurantIcon extends Component {
@@ -10,24 +8,26 @@ class RestaurantIcon extends Component {
 
     if (this.props.editMode) {
       return (
-        <Form.Group className="restaurant edit phone">
-          <span>(</span>
-          <Form.Input
-            className="area-code"
-            type="tel"
-            defaultValue={areaCode}
-            maxLength="3"
-            name="areaCode"
-          />
-          <span>)</span>
-          <Form.Input
-            className="phone"
-            type="tel"
-            defaultValue={phone}
-            maxLength="7"
-            name="phone"
-          />
-        </Form.Group>
+        <div className="form-group">
+          <div className="form-row">
+            <input
+              style={{ marginLeft: '0.4rem' }}
+              className="col-md-3 form-control form-control-sm"
+              type="tel"
+              defaultValue={areaCode}
+              maxLength="3"
+              name="areaCode"
+            />
+            <input
+              style={{ marginLeft: '0.4rem' }}
+              className="col-md-6 form-control form-control-sm"
+              type="tel"
+              defaultValue={phone}
+              maxLength="7"
+              name="phone"
+            />
+          </div>
+        </div>
       );
     }
 

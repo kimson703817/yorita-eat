@@ -20,8 +20,7 @@ const getEateryDataFromBody = body => {
     state: body.state,
     zipcode: body.zipcode,
     areaCode: body.areaCode,
-    phone: body.phone,
-    icon_imageKey: body.icon_imageKey
+    phone: body.phone
   };
 };
 
@@ -83,10 +82,13 @@ router.put(
   '/update',
   requireLogin,
   async (req, res, next) => {
-    const { _id, old_imageKey } = req.body;
+    const { _id, old_imageKey, icon_imageKey } = req.body;
     req.body.s3_bucketKey = old_imageKey;
     const userId = req.user._id;
-    const objectToUpdate = getEateryDataFromBody(req.body);
+    let objectToUpdate = getEateryDataFromBody(req.body);
+    if (icon_imageKey) {
+      objectToUpdate = { ...objectToUpdate, icon_imageKey };
+    }
 
     try {
       const db_res = await knex('eateries')
@@ -107,7 +109,7 @@ router.put(
       db_res[0].icon_imageUrl = generateResourceUrl(db_res[0].icon_imageKey);
       db_res[0].user_id = userId;
       res.status(200).send(db_res[0]);
-      next();
+      if (old_imageKey) next();
     } catch (err) {
       console.log(err);
       res.status(err.status || 422).send(err);

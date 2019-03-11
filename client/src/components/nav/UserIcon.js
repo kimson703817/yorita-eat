@@ -24,10 +24,10 @@ const UserIcon = () => (
       aria-haspopup="true"
       aria-expanded="false"
     >
-      Hello, User
+      Your Account
     </button>
     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <Link to="/owner/heartfelt-welcome" className="dropdown-item">
+      <Link to="/owner/new-restaurant" className="dropdown-item">
         Become an Owner
       </Link>
     </div>

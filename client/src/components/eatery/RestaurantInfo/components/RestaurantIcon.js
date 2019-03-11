@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Image } from 'semantic-ui-react';
+import Octicon, { FileMedia } from '@githubprimer/octicons-react';
 
 import './css/restaurantIcon.css';
 
@@ -11,11 +11,13 @@ class RestaurantIcon extends Component {
   render() {
     if (this.props.editMode) {
       return (
-        <div className="restaurant home icon">
-          <Image circular src={this.props.src} />
+        <div className="restaurant-home icon">
+          <img src={this.props.src} />
           <div className="overlay">
             <label htmlFor="upload" className="icon-wrapper">
-              <Icon name="image" className="edit-icon" size="huge" />
+              <div className="icon-center">
+                <Octicon className="edit-icon" icon={FileMedia} />
+              </div>
               <div className="input-file-wrapper">
                 <input
                   onChange={this.onFileSelect}
@@ -31,7 +33,9 @@ class RestaurantIcon extends Component {
       );
     }
     return (
-      <Image className="restaurant home icon" circular src={this.props.src} />
+      <div className="restaurant-home icon">
+        <img src={this.props.src} />
+      </div>
     );
   }
 }

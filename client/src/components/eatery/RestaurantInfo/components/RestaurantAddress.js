@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Form } from 'semantic-ui-react';
-
 import { stateOptions } from '../../../form_builders/utils/stateOptions';
 
 import './css/restaurantAddress.css';
@@ -12,14 +10,21 @@ class RestaurantAddress extends Component {
 
     if (this.props.editMode) {
       return (
-        <Form.Input required defaultValue={streetAddr} name="streetAddr" />
+        <div className="form-group">
+          <input
+            className="form-control form-control-sm"
+            required
+            defaultValue={streetAddr}
+            name="streetAddr"
+          />
+        </div>
       );
     }
     return <div className="restaurant contact">{streetAddr}</div>;
   };
 
-  handleStateSelect = (event, { value }) => {
-    this.props.onSelect(value);
+  handleStateSelect = event => {
+    this.props.onSelect(event.target.value);
   };
 
   renderCityStateZip = () => {
@@ -28,25 +33,36 @@ class RestaurantAddress extends Component {
     if (this.props.editMode) {
       return (
         <div>
-          <Form.Input required defaultValue={city} name="city" />
-          <Form.Group className="edit state-zip">
-            <Form.Dropdown
-              fluid
-              className="restaurant edit state"
+          <div className="form-group">
+            <input
+              className="form-control form-control-sm"
               required
-              defaultValue={state}
+              defaultValue={city}
+              name="city"
+            />
+          </div>
+          <div
+            style={{ paddingLeft: '0.4rem' }}
+            className="form-group form-row"
+          >
+            <select
+              className="col-md-5 form-control form-control-sm"
               name="state"
-              selection
-              options={stateOptions}
               onChange={this.handleStateSelect}
-            />
-            <Form.Input
-              className="restaurant edit zip"
-              required
-              defaultValue={zipcode}
-              name="zipcode"
-            />
-          </Form.Group>
+            >
+              <option value="AL">AL</option>
+              <option value="CA">CA</option>
+              <option value="MN">MN</option>
+            </select>
+            <div className="restaurant-edit-zip col-md-5">
+              <input
+                className="form-control form-control-sm"
+                required
+                defaultValue={zipcode}
+                name="zipcode"
+              />
+            </div>
+          </div>
         </div>
       );
     }

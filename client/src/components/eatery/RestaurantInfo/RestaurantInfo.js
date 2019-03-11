@@ -1,8 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 
-import { Button, Form } from 'semantic-ui-react';
-
 import './restaurantInfo.css';
 
 import RestaurantIcon from './components/RestaurantIcon';
@@ -24,6 +22,7 @@ class RestaurantInfo extends Component {
   };
 
   handleEditSubmit = async event => {
+    event.preventDefault();
     const { name, streetAddr, city, zipcode, areaCode, phone } = event.target;
     const requestData = {
       _id: this.props.data._id,
@@ -37,24 +36,29 @@ class RestaurantInfo extends Component {
     };
     const { icon_imageFile } = this.state;
 
-    const uploadConfig = await axios.get('/api/resource/upload/image');
-    const { url } = uploadConfig.data;
-    const icon_imageKey = uploadConfig.data.key;
-    const old_imageKey = this.props.data.icon_imageKey;
+    if (icon_imageFile) {
+      const uploadConfig = await axios.get('/api/resource/upload/image');
+      const { url } = uploadConfig.data;
+      const icon_imageKey = uploadConfig.data.key;
+      const old_imageKey = this.props.data.icon_imageKey;
 
-    await axios.put(url, icon_imageFile, {
-      headers: {
-        'Content-Type': icon_imageFile.type
-      }
-    });
+      await axios.put(url, icon_imageFile, {
+        headers: {
+          'Content-Type': icon_imageFile.type
+        }
+      });
 
-    const apiRes = await axios.put('/api/eatery/update', {
-      ...requestData,
-      icon_imageKey,
-      old_imageKey
-    });
-
-    this.props.onDataEdit(apiRes.data);
+      const apiRes = await axios.put('/api/eatery/update', {
+        ...requestData,
+        icon_imageKey,
+        old_imageKey
+      });
+      this.props.onDataEdit(apiRes.data);
+      this.setState({ icon_imageFile: null });
+    } else {
+      const apiRes = await axios.put('/api/eatery/update', requestData);
+      this.props.onDataEdit(apiRes.data);
+    }
   };
 
   onIconSelect = file => {
@@ -99,23 +103,31 @@ class RestaurantInfo extends Component {
 
     if (this.props.editMode) {
       return (
-        <Form size="mini" onSubmit={this.handleEditSubmit}>
+        <form onSubmit={this.handleEditSubmit}>
           <RestaurantIcon
             src={iconSrc}
             onFileSelect={this.onIconSelect}
             editMode={true}
           />
-          <RestaurantName name={name} editMode={true} />
-          <RestaurantAddress
-            address={address}
-            editMode={true}
-            onSelect={this.onStateSelect}
-          />
-          <RestaurantPhone phoneNumber={phoneNumber} editMode={true} />
-          <div className="restaurant home button edit">
-            <Form.Button size="tiny" color="red" content="Save" />
+          <div style={{ paddingTop: '1rem' }}>
+            <RestaurantName name={name} editMode={true} />
+            <RestaurantAddress
+              address={address}
+              editMode={true}
+              onSelect={this.onStateSelect}
+            />
+            <RestaurantPhone phoneNumber={phoneNumber} editMode={true} />
+            <div className="restaurant home button edit">
+              <button
+                type="submit"
+                className="mx-auto btn-lg main-app-color"
+                style={{ width: '9rem', border: '0' }}
+              >
+                <span>Save</span>
+              </button>
+            </div>
           </div>
-        </Form>
+        </form>
       );
     }
     return (
@@ -126,12 +138,14 @@ class RestaurantInfo extends Component {
         <RestaurantPhone phoneNumber={phoneNumber} />
         {owner_id === user_id && !this.state.editMode && (
           <div className="restaurant home button edit">
-            <Button
-              content="Edit"
-              color="red"
+            <button
+              type="button"
+              className="mx-auto btn-lg main-app-color"
+              style={{ border: '0' }}
               onClick={this.handleEditClick}
-              size="tiny"
-            />
+            >
+              <span>edit</span>
+            </button>
           </div>
         )}
       </div>

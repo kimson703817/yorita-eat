@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { Form, Header } from 'semantic-ui-react';
-
 import './css/restaurantName.css';
 
 class RestaurantIcon extends Component {
@@ -10,19 +8,17 @@ class RestaurantIcon extends Component {
 
     if (this.props.editMode) {
       return (
-        <Form.Input
-          className="restaurant name edit"
-          required
-          defaultValue={name}
-          name="name"
-        />
+        <div className="form-group">
+          <input
+            className="form-control form-control-sm restaurant name edit"
+            required
+            defaultValue={name}
+            name="name"
+          />
+        </div>
       );
     }
-    return (
-      <Header className="restaurant home name" as="h2">
-        {name}
-      </Header>
-    );
+    return <h2 className="restaurant home name">{name}</h2>;
   }
 }
 

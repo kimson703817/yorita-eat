@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Grid } from 'semantic-ui-react';
 
 import RestaurantInfo from './RestaurantInfo/RestaurantInfo';
 import RestaurantMenu from './RestaurantMenu/RestaurantMenu';
@@ -60,21 +59,21 @@ class RestaurantHomepage extends Component {
     }
 
     return (
-      <Container style={{ marginTop: '3.5rem' }}>
-        <Grid>
-          <Grid.Column width={3}>
+      <div className="container">
+        <div className="row">
+          <div style={{ marginRight: '2rem' }} className="col-md-2">
             <RestaurantInfo
               data={data}
               editMode={editMode}
               onEditClick={this.handleEditMode}
               onDataEdit={this.onDataEdit}
             />
-          </Grid.Column>
-          <Grid.Column width={12}>
+          </div>
+          <div className="col-md-8">
             <RestaurantMenu editMode={editMode} />
-          </Grid.Column>
-        </Grid>
-      </Container>
+          </div>
+        </div>
+      </div>
     );
   }
 }

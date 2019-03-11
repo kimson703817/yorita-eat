@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import Octicon, { ChevronRight } from '@githubprimer/octicons-react';
 
@@ -9,35 +8,6 @@ import { onRequestSent } from '../../../actions';
 import { stateOptions } from '../../form_builders/utils/stateOptions';
 
 import './css/restaurantInfoForm.css';
-
-const formInputs = [
-  {
-    className: 'form-control form-control-lg center-inputText mb-3',
-    type: 'text',
-    label: 'Name',
-    name: 'name',
-    placeholder: 'Your Address',
-    required: true,
-    autoComplete: 'off'
-  },
-  {
-    className: 'form-control form-control-lg center-inputText mb-3',
-    type: 'text',
-    label: 'City',
-    name: 'city',
-    placeholder: 'City',
-    required: true,
-    autoComplete: 'off'
-  }
-];
-
-// <input
-//       className={className}
-//       type="text"
-//       name={name}
-//       placeholder={placeholder}
-//       required
-//       autoComplete="off"
 
 class RestaurantInfoForm extends Component {
   state = { stateField: null, responseObject: null };
@@ -95,7 +65,7 @@ class RestaurantInfoForm extends Component {
     return (
       <div>
         <form onSubmit={this.onSubmit}>
-          <div className="col-4 mx-auto">
+          <div className="col-3 mx-auto">
             <div className="col">
               <h1 style={{ textAlign: 'center' }}>
                 {this.props.requestData.name}
@@ -114,7 +84,7 @@ class RestaurantInfoForm extends Component {
               </div>
             </div>
             <div className="form-group form-row">
-              <div className="col-md-7">
+              <div className="col-md-5">
                 <label htmlFor="input-restaurantCity">City</label>
                 <input
                   type="text"
@@ -123,7 +93,7 @@ class RestaurantInfoForm extends Component {
                   name="city"
                 />
               </div>
-              <div className="col-md-2">
+              <div className="col-md-3">
                 <label htmlFor="input-restaurantState">State</label>
                 <select
                   id="input-restaurantState"
@@ -176,35 +146,3 @@ export default connect(
   mapStateToProps,
   { onRequestSent }
 )(RestaurantInfoForm);
-
-// <label className="col-form-label-lg label-top-lg">Address</label>
-// {this.renderTextInput(
-//                 'address',
-//                 'form-control form-control-lg center-inputText mb-3',
-//                 'Your Address'
-//               )}
-//               <label className="col-form-label-lg label-top-lg">City</label>
-//               {this.renderTextInput(
-//                 'city',
-//                 'form-control form-control-lg center-inputText mb-3',
-//                 'City'
-//               )}
-
-// {/*<div className="align-self-center mx-auto col-3">*/}
-
-//               <div className="form-group col-md-6">
-//                 <input
-//                   type="text"
-//                   className="form-control"
-//                   id="input-restaurantState"
-//                 />
-//               </div>
-
-// <button
-//   type="submit"
-//   className="btn-lg main-app-color"
-//   style={{ minWidth: '15%', border: '0' }}
-// >
-//   <span style={{ marginRight: '0.25rem' }}>Go</span>
-//   <Octicon verticalAlign="middle" icon={ChevronRight} />
-// </button>
