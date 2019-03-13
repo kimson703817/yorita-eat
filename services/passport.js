@@ -37,7 +37,8 @@ passport.use(
         }
         const newUser = await knex('users')
           .insert({
-            twitter_id: profile.id.toString()
+            twitter_id: profile.id.toString(),
+            display_name: profile.displayName
           })
           .returning('_id');
         if (newUser.length) return cb(null, { _id: newUser[0] });

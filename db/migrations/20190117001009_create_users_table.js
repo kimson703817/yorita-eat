@@ -5,6 +5,7 @@ exports.up = (knex, Promise) =>
         .uuid('_id')
         .primary()
         .defaultTo(knex.raw('uuid_generate_v4()'));
+      users.string('display_name');
       users.string('twitter_id').unique();
       users.string('google_id').unique();
       users.string('facebook_id').unique();

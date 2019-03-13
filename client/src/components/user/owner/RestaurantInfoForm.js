@@ -18,16 +18,16 @@ class RestaurantInfoForm extends Component {
 
   onSubmit = async event => {
     event.preventDefault();
-    const { address, city, zipcode, areaCode, phone } = event.target;
+    const { address, city, zipcode, area_code, phone } = event.target;
     const { name } = this.props.requestData;
 
     const updatedRequestData = {
       name,
-      streetAddr: address.value,
+      address: address.value,
       city: city.value,
       state: this.state.stateField,
       zipcode: zipcode.value,
-      areaCode: phone.value.slice(0, 3),
+      area_code: phone.value.slice(0, 3),
       phone: phone.value.slice(3, 10)
     };
     console.log(updatedRequestData);
@@ -50,8 +50,8 @@ class RestaurantInfoForm extends Component {
   render() {
     if (this.state.responseObject) {
       const { data } = this.state.responseObject;
-      const { _id } = data;
-      const pathname = `/eatery/happy-place/${_id}`;
+      const { id } = data;
+      const pathname = `/eatery/happy-place/${id}`;
       return (
         <Redirect
           to={{

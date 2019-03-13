@@ -1,43 +1,37 @@
 exports.up = (knex, Promise) =>
   knex.schema
-    .createTable('eateries', eateries => {
-      eateries.increments('_id');
-      eateries.uuid('owner_id').notNullable();
-      eateries.foreign('owner_id').references('users._id');
-      eateries.string('name').notNullable();
-      eateries.string('streetAddr');
-      eateries.string('city');
-      eateries.string('state');
-      eateries.string('zipcode');
-      eateries.string('areaCode');
-      eateries.string('phone');
+    .createTable('eateries', table => {
+      table.uuid('owner_id').notNullable();
+      table.foreign('owner_id').references('users._id');
+
+      table.increments('id');
+      table.string('name').notNullable();
+      table.string('address');
+      table.string('city');
+      table.string('state');
+      table.string('zipcode');
+      table.string('area_code');
+      table.string('phone');
+      table.string('key_icon');
+      table.float('rating');
+      table.text('feedback');
     })
-    .createTable('chainLocations', chainLocations => {
-      chainLocations
+    .createTable('menu_items', table => {
+      table
         .integer('eateries_id')
         .unsigned()
         .notNullable();
-      chainLocations.foreign('eateries_id').references('eateries._id');
-      chainLocations.string('streetAddr').notNullable();
-      chainLocations.string('city').notNullable();
-      chainLocations.string('state').notNullable();
-      chainLocations.string('zipcode').notNullable();
-      chainLocations.string('areaCode');
-      chainLocations.string('phone');
-    })
-    .createTable('menuItems', menuItems => {
-      menuItems.increments('id');
-      menuItems
-        .integer('eateries_id')
-        .unsigned()
-        .notNullable();
-      menuItems.foreign('eateries_id').references('eateries._id');
-      menuItems.string('name').notNullable();
-      menuItems.decimal('price').notNullable();
+      table.foreign('eateries_id').references('eateries.id');
+
+      table.increments('id');
+      table.string('name').notNullable();
+      table.decimal('price').notNullable();
+      table.string('key_img');
+      table.text('feedback');
+      table.float('rating');
+
+      table.unique('name', 'eateries_id');
     });
 
 exports.down = (knex, Promise) =>
-  knex.schema
-    .dropTable('menuItems')
-    .dropTable('chainLocations')
-    .dropTable('eateries');
+  knex.schema.dropTable('menu_items').dropTable('eateries');

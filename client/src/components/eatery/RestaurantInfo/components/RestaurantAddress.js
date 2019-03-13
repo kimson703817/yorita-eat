@@ -6,7 +6,7 @@ import './css/restaurantAddress.css';
 
 class RestaurantAddress extends Component {
   renderAddress = () => {
-    const { streetAddr } = this.props.address;
+    const { address } = this.props.address;
 
     if (this.props.editMode) {
       return (
@@ -14,13 +14,13 @@ class RestaurantAddress extends Component {
           <input
             className="form-control form-control-sm"
             required
-            defaultValue={streetAddr}
-            name="streetAddr"
+            defaultValue={address}
+            name="address"
           />
         </div>
       );
     }
-    return <div className="restaurant contact">{streetAddr}</div>;
+    return <div className="restaurant contact">{address}</div>;
   };
 
   handleStateSelect = event => {

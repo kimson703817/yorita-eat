@@ -21,17 +21,22 @@ class RestaurantInfo extends Component {
     this.props.onEditClick();
   };
 
+  handleEditCancel = () => {
+    this.setState({ icon_imageFile: null });
+    this.props.onEditClick();
+  };
+
   handleEditSubmit = async event => {
     event.preventDefault();
-    const { name, streetAddr, city, zipcode, areaCode, phone } = event.target;
+    const { name, address, city, zipcode, area_code, phone } = event.target;
     const requestData = {
-      _id: this.props.data._id,
+      id: this.props.data.id,
       name: name.value,
-      streetAddr: streetAddr.value,
+      address: address.value,
       city: city.value,
       state: this.state.selectedState,
       zipcode: zipcode.value,
-      areaCode: areaCode.value,
+      area_code: area_code.value,
       phone: phone.value
     };
     const { icon_imageFile } = this.state;
@@ -39,8 +44,8 @@ class RestaurantInfo extends Component {
     if (icon_imageFile) {
       const uploadConfig = await axios.get('/api/resource/upload/image');
       const { url } = uploadConfig.data;
-      const icon_imageKey = uploadConfig.data.key;
-      const old_imageKey = this.props.data.icon_imageKey;
+      const key_icon = uploadConfig.data.key;
+      const key_OLD = this.props.data.key_icon;
 
       await axios.put(url, icon_imageFile, {
         headers: {
@@ -50,11 +55,10 @@ class RestaurantInfo extends Component {
 
       const apiRes = await axios.put('/api/eatery/update', {
         ...requestData,
-        icon_imageKey,
-        old_imageKey
+        key_icon,
+        key_OLD
       });
       this.props.onDataEdit(apiRes.data);
-      this.setState({ icon_imageFile: null });
     } else {
       const apiRes = await axios.put('/api/eatery/update', requestData);
       this.props.onDataEdit(apiRes.data);
@@ -80,7 +84,7 @@ class RestaurantInfo extends Component {
   getFullAddress = () => {
     const { data } = this.props;
     return {
-      streetAddr: data.streetAddr,
+      address: data.address,
       city: data.city,
       state: data.state,
       zipcode: data.zipcode
@@ -90,7 +94,7 @@ class RestaurantInfo extends Component {
   getFullPhoneNumber = () => {
     const { data } = this.props;
     return {
-      areaCode: data.areaCode,
+      area_code: data.area_code,
       phone: data.phone
     };
   };
@@ -117,14 +121,24 @@ class RestaurantInfo extends Component {
               onSelect={this.onStateSelect}
             />
             <RestaurantPhone phoneNumber={phoneNumber} editMode={true} />
-            <div className="restaurant home button edit">
-              <button
-                type="submit"
-                className="mx-auto btn-lg main-app-color"
-                style={{ width: '9rem', border: '0' }}
-              >
-                <span>Save</span>
-              </button>
+            <div className="row">
+              <div className="restaurant home button edit mx-auto">
+                <button
+                  type="submit"
+                  className="col-md-5 mx-auto btn-sm main-app-color"
+                  style={{ border: '0' }}
+                >
+                  <span>Save</span>
+                </button>
+                <button
+                  type="button"
+                  className="col-md-7 mx-auto btn-sm "
+                  style={{ border: '0' }}
+                  onClick={this.handleEditCancel}
+                >
+                  <span>Cancel</span>
+                </button>
+              </div>
             </div>
           </div>
         </form>
@@ -140,7 +154,7 @@ class RestaurantInfo extends Component {
           <div className="restaurant home button edit">
             <button
               type="button"
-              className="mx-auto btn-lg main-app-color"
+              className="mx-auto btn main-app-color"
               style={{ border: '0' }}
               onClick={this.handleEditClick}
             >

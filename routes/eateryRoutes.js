@@ -1,5 +1,5 @@
 const knex = require('../db/knex');
-const isOwner = require('../middlewares/isOwner');
+// const isOwner = require('../middlewares/isOwner');
 const passport = require('passport');
 const requireLogin = require('../middlewares/requireLogin');
 const router = require('express').Router();
@@ -13,35 +13,72 @@ const generateResourceUrl = key => {
 };
 
 const getEateryDataFromBody = body => {
+  const {
+    name,
+    address,
+    city,
+    state,
+    zipcode,
+    area_code,
+    phone,
+    key_icon
+  } = body;
+
+  if (key_icon) {
+    return {
+      name,
+      address,
+      city,
+      state,
+      zipcode,
+      area_code,
+      phone,
+      key_icon
+    };
+  }
+
   return {
-    name: body.name,
-    streetAddr: body.streetAddr,
-    city: body.city,
-    state: body.state,
-    zipcode: body.zipcode,
-    areaCode: body.areaCode,
-    phone: body.phone
+    name,
+    address,
+    city,
+    state,
+    zipcode,
+    area_code,
+    phone
   };
 };
 
 const getMenuDataFromBody = body => {
+  const { eateries_id, name, price, key_img } = body;
+  if (key_img) {
+    return {
+      eateries_id,
+      name,
+      price,
+      key_img
+    };
+  }
+
   return {
-    eateries_id: body.eateries_id,
-    name: body.name,
-    price: body.price
+    eateries_id,
+    name,
+    price
   };
 };
 
-// Router functions
+/* Router Functions */
+
+/** FETCH RESTAURANT using id**/
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
+
   try {
     const db_res = await knex('eateries')
       .select()
-      .where({ _id: id });
+      .where({ id });
     if (db_res.length) {
-      db_res[0].icon_imageUrl = generateResourceUrl(db_res[0].icon_imageKey);
+      db_res[0].icon_imageUrl = generateResourceUrl(db_res[0].key_icon);
 
       return res.send(db_res[0]);
     }
@@ -52,23 +89,27 @@ router.get('/:id', async (req, res) => {
   res.status(404).send('This restaurant does not exist.');
 });
 
+/** ADD RESTAURANT **/
+
 router.put('/add', requireLogin, async (req, res) => {
   const bodyInfo = getEateryDataFromBody(req.body);
   const owner_id = req.user._id;
-  const objectToInsert = { ...bodyInfo, owner_id };
+
+  // insert owner_id into the new database entry
+  let object = { ...bodyInfo, owner_id };
 
   try {
     const db_res = await knex('eateries')
-      .insert(objectToInsert)
+      .insert(object)
       .returning([
         'owner_id',
-        '_id',
+        'id',
         'name',
-        'streetAddr',
+        'address',
         'city',
         'state',
         'zipcode',
-        'areaCode',
+        'area_code',
         'phone'
       ]);
     res.status(201).send(db_res[0]);
@@ -78,38 +119,40 @@ router.put('/add', requireLogin, async (req, res) => {
   }
 });
 
+/** UPDATE RESTAURANT if owner_id and req.user.id matches **/
+
 router.put(
   '/update',
   requireLogin,
   async (req, res, next) => {
-    const { _id, old_imageKey, icon_imageKey } = req.body;
-    req.body.s3_bucketKey = old_imageKey;
+    const { id, key_OLD } = req.body;
+
+    // remove old image icon on S3
+    req.body.s3_bucketKey = key_OLD;
+
     const userId = req.user._id;
-    let objectToUpdate = getEateryDataFromBody(req.body);
-    if (icon_imageKey) {
-      objectToUpdate = { ...objectToUpdate, icon_imageKey };
-    }
+    let object = getEateryDataFromBody(req.body);
 
     try {
       const db_res = await knex('eateries')
-        .where({ _id, owner_id: userId })
-        .update(objectToUpdate)
+        .where({ id, owner_id: userId })
+        .update(object)
         .returning([
           'owner_id',
-          '_id',
+          'id',
           'name',
-          'streetAddr',
+          'address',
           'city',
           'state',
           'zipcode',
-          'areaCode',
+          'area_code',
           'phone',
-          'icon_imageKey'
+          'key_icon'
         ]);
-      db_res[0].icon_imageUrl = generateResourceUrl(db_res[0].icon_imageKey);
+      db_res[0].icon_imageUrl = generateResourceUrl(db_res[0].key_icon);
       db_res[0].user_id = userId;
       res.status(200).send(db_res[0]);
-      if (old_imageKey) next();
+      if (key_OLD) next();
     } catch (err) {
       console.log(err);
       res.status(err.status || 422).send(err);
@@ -118,14 +161,49 @@ router.put(
   deleteResourceObject
 );
 
-router.put('/menu', requireLogin, isOwner, async (req, res, next) => {
-  const objectToInsert = getMenuDataFromBody(req.body);
+router.get('/menu/:id', async (req, res) => {
+  const eateries_id = req.params.id;
 
   try {
-    const db_res = await knex('menuItems')
-      .insert(objectToInsert)
-      .returning(['name', 'price']);
+    const db_res = await knex('menu_items')
+      .select('name', 'price', 'key_img')
+      .where({ eateries_id });
+    if (db_res.length) {
+      console.log(db_res);
+      return res.send(db_res[0]);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(err.status || 422).send(err);
+  }
+  res.status(404).send('This restaurant does not exist.');
+});
+
+router.put('/menu', requireLogin, async (req, res) => {
+  let object = getMenuDataFromBody(req.body);
+
+  try {
+    const db_res = await knex('menu_items')
+      .insert(object)
+      .returning(['name', 'price', 'key_img']);
+    db_res[0].imageUrl = generateResourceUrl(db_res[0].image_key);
     res.status(201).send(db_res[0]);
+  } catch (err) {
+    console.log(err);
+    res.status(err.status || 422).send(err);
+  }
+});
+
+router.put('/menu/update', requireLogin, async (req, res, next) => {
+  let object = getMenuDataFromBody(req.body);
+  const { key_OLD } = req.body;
+  req.body.s3_bucketKey = key_OLD;
+
+  try {
+    const db_res = await knex('menu_items')
+      .where({ name, eateries_id: object.eateries_id })
+      .update(object)
+      .returning(['name', 'price', 'key_img']);
   } catch (err) {
     console.log(err);
     res.status(err.status || 422).send(err);

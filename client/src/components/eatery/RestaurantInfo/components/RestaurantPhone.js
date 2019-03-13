@@ -4,7 +4,7 @@ import './css/restaurantPhone.css';
 
 class RestaurantIcon extends Component {
   render() {
-    const { areaCode, phone } = this.props.phoneNumber;
+    const { area_code, phone } = this.props.phoneNumber;
 
     if (this.props.editMode) {
       return (
@@ -14,9 +14,9 @@ class RestaurantIcon extends Component {
               style={{ marginLeft: '0.4rem' }}
               className="col-md-3 form-control form-control-sm"
               type="tel"
-              defaultValue={areaCode}
+              defaultValue={area_code}
               maxLength="3"
-              name="areaCode"
+              name="area_code"
             />
             <input
               style={{ marginLeft: '0.4rem' }}
@@ -33,7 +33,7 @@ class RestaurantIcon extends Component {
 
     return (
       <div className="restaurant contact">
-        {`${areaCode}`}-{`${phone.slice(0, 3)}-${phone.slice(3)}`}
+        {`${area_code}`}-{`${phone.slice(0, 3)}-${phone.slice(3)}`}
       </div>
     );
   }

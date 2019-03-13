@@ -1,7 +1,6 @@
 .restaurant-home.icon {
   position: relative;
-  width: 13.5rem;
-  height: 13.5rem;
+  width: 100%;
 }
 
 .restaurant-home.icon > img {

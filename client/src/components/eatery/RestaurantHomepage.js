@@ -34,7 +34,6 @@ class RestaurantHomepage extends Component {
 
   getUserId = () => {
     const { auth } = this.props;
-    // console.log(auth);
     if (!auth) return null;
     return auth._id;
   };
@@ -70,7 +69,7 @@ class RestaurantHomepage extends Component {
             />
           </div>
           <div className="col-md-8">
-            <RestaurantMenu editMode={editMode} />
+            <RestaurantMenu restaurantId={data.id} editMode={editMode} />
           </div>
         </div>
       </div>
