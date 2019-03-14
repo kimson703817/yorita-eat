@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Octicon, { ChevronRight } from '@githubprimer/octicons-react';
 
 import { onRequestSent } from '../../../actions';
 import { stateOptions } from '../../form_builders/utils/stateOptions';
@@ -18,7 +17,7 @@ class RestaurantInfoForm extends Component {
 
   onSubmit = async event => {
     event.preventDefault();
-    const { address, city, zipcode, area_code, phone } = event.target;
+    const { address, city, zipcode, phone } = event.target;
     const { name } = this.props.requestData;
 
     const updatedRequestData = {
@@ -30,7 +29,6 @@ class RestaurantInfoForm extends Component {
       area_code: phone.value.slice(0, 3),
       phone: phone.value.slice(3, 10)
     };
-    console.log(updatedRequestData);
 
     const req = {
       method: 'put',

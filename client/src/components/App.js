@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 import Navbar from './nav/Navbar';
-import OwnerWelcome from './user/owner/OwnerWelcome';
+// import OwnerWelcome from './user/owner/OwnerWelcome';
 import AddRestaurantForm from './user/owner/AddRestaurantForm';
 import RestaurantInfoForm from './user/owner/RestaurantInfoForm';
 import RestaurantHomepage from './eatery/RestaurantHomepage';

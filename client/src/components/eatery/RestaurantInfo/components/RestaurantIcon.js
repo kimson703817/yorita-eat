@@ -5,6 +5,7 @@ import './css/restaurantIcon.css';
 
 class RestaurantIcon extends Component {
   onFileSelect = event => {
+    event.preventDefault();
     this.props.onFileSelect(event.target.files[0]);
   };
 

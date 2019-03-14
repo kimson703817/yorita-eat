@@ -12,6 +12,11 @@ const generateResourceUrl = key => {
   return keys.placeholderImages.restaurantIcon;
 };
 
+const s3_appendUrl = items => ({
+  items,
+  cloudUrl: `${keys.storageServiceProvider}/${keys.S3.Bucket}`
+});
+
 const getEateryDataFromBody = body => {
   const {
     name,
@@ -168,10 +173,9 @@ router.get('/menu/:id', async (req, res) => {
     const db_res = await knex('menu_items')
       .select('name', 'price', 'key_img')
       .where({ eateries_id });
-    if (db_res.length) {
-      console.log(db_res);
-      return res.send(db_res[0]);
-    }
+
+    const data = s3_appendUrl(db_res);
+    return res.send(data);
   } catch (err) {
     console.log(err);
     res.status(err.status || 422).send(err);
@@ -186,7 +190,6 @@ router.put('/menu', requireLogin, async (req, res) => {
     const db_res = await knex('menu_items')
       .insert(object)
       .returning(['name', 'price', 'key_img']);
-    db_res[0].imageUrl = generateResourceUrl(db_res[0].image_key);
     res.status(201).send(db_res[0]);
   } catch (err) {
     console.log(err);
@@ -204,6 +207,7 @@ router.put('/menu/update', requireLogin, async (req, res, next) => {
       .where({ name, eateries_id: object.eateries_id })
       .update(object)
       .returning(['name', 'price', 'key_img']);
+    const data = s3_appendUrl(db_res);
   } catch (err) {
     console.log(err);
     res.status(err.status || 422).send(err);

@@ -3,58 +3,45 @@ import React, { Component } from 'react';
 import shortid from 'shortid';
 import Octicon, { Plus } from '@githubprimer/octicons-react';
 
+import MenuItem from './components/MenuItem';
+
 class RestaurantMenu extends Component {
   state = {
     addMode: false,
-    data: [
-      {
-        name: 'Needle Light',
-        price: 10.99
-      },
-      {
-        name: 'Needle Light',
-        price: 10.99
-      },
-      {
-        name: 'Needle Light',
-        price: 10.99
-      },
-      {
-        name: 'Needle Light',
-        price: 10.99
-      },
-      {
-        name: 'Needle Light',
-        price: 10.99
-      },
-      {
-        name: 'Needle Light',
-        price: 10.99
-      },
-      {
-        name: 'Needle Light',
-        price: 10.99
-      },
-      {
-        name: 'Sunshine See May',
-        price: 15.25
-      },
-      {
-        name: 'Paradise',
-        price: 20.0
-      },
-      {
-        name: 'Girls in the Frontier',
-        price: 50.0
-      }
-    ]
+    data: [],
+    file: null
   };
+
+  async componentDidMount() {
+    const { restaurantId } = this.props;
+
+    const req = {
+      method: 'get',
+      url: `/api/eatery/menu/${restaurantId}`
+    };
+
+    try {
+      const res = await axios(req);
+      const { data } = res;
+
+      this.setState({ data });
+    } catch (error) {
+      this.setState({ data: false });
+    }
+  }
 
   onAddIconClick = () => this.setState({ addMode: true });
 
+  onFileSelect = event => {
+    event.preventDefault();
+    this.setState({ file: event.target.files[0] });
+  };
+
   onMenuItemSubmit = async event => {
     event.preventDefault();
-    const { name, price, imgFile } = event.target;
+    const { name, price } = event.target;
+    const imgFile = this.state.file;
+    const imgType = event.target.imgFile.accept;
 
     const requestData = {
       eateries_id: this.props.restaurantId,
@@ -63,16 +50,15 @@ class RestaurantMenu extends Component {
     };
 
     let apiRes;
-
+    console.log(this.state.file);
     if (imgFile) {
       const uploadConfig = await axios.get('/api/resource/upload/image');
       const { url } = uploadConfig.data;
       const key_img = uploadConfig.data.key;
-      console.log(key_img);
 
-      await axios.put(url, imgFile.value, {
+      await axios.put(url, imgFile, {
         headers: {
-          'Content-Type': imgFile.accept
+          'Content-Type': imgType
         }
       });
 
@@ -82,10 +68,14 @@ class RestaurantMenu extends Component {
       });
     } else {
       apiRes = await axios.put('/api/eatery/menu', requestData);
-      this.props.onDataEdit(apiRes.data);
     }
-    console.log(apiRes);
-    this.setState({ addMode: false });
+    const oldMenu = this.state.data.items;
+    const { cloudUrl } = this.state.data;
+
+    let updatedMenu = [...oldMenu, apiRes.data];
+    const updatedData = { items: updatedMenu, cloudUrl };
+
+    this.setState({ data: updatedData, addMode: false, file: null });
   };
 
   addItemForm = () => {
@@ -124,26 +114,19 @@ class RestaurantMenu extends Component {
   };
 
   renderMenuItem = item => {
-    return (
-      <div key={shortid.generate()} className="card">
-        <img
-          className="card-img-top"
-          src="http://www.wallpapermaiden.com/image/2018/11/27/yoshino-yorita-hajime-fujiwara-the-idolmaster-cinderella-girls-lying-down-27436.png"
-          alt="Card image cap"
-        />
-        <div className="card-body">
-          <h5 className="card-title">{item.name}</h5>
-          <h6 className="card-text">{item.price}</h6>
-        </div>
-      </div>
-    );
+    const { cloudUrl } = this.state.data;
+    return <MenuItem key={shortid.generate()} item={{ ...item, cloudUrl }} />;
   };
 
   render() {
+    const { items } = this.state.data;
+
+    if (!items) return <div />;
+
     if (this.props.editMode) {
       return (
         <div className="card-columns">
-          {this.state.data.map(this.renderMenuItem)}
+          {items.map(this.renderMenuItem)}
           {this.state.addMode ? (
             this.addItemForm()
           ) : (
@@ -159,11 +142,7 @@ class RestaurantMenu extends Component {
       );
     }
 
-    return (
-      <div className="card-columns">
-        {this.state.data.map(this.renderMenuItem)}
-      </div>
-    );
+    return <div className="card-columns">{items.map(this.renderMenuItem)}</div>;
   }
 }
 
