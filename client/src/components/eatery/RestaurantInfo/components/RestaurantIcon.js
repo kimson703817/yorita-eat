@@ -13,7 +13,7 @@ class RestaurantIcon extends Component {
     if (this.props.editMode) {
       return (
         <div className="restaurant-home icon">
-          <img src={this.props.src} />
+          <img src={this.props.src} alt="currently selected icon" />
           <div className="overlay">
             <label htmlFor="upload" className="icon-wrapper">
               <div className="icon-center">
@@ -35,7 +35,7 @@ class RestaurantIcon extends Component {
     }
     return (
       <div className="restaurant-home icon">
-        <img src={this.props.src} />
+        <img src={this.props.src} alt="Restaurant Icon" />
       </div>
     );
   }

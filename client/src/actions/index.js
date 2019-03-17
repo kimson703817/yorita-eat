@@ -3,7 +3,8 @@ import {
   FETCH_USER,
   COMPOSE_REQ_OBJECT,
   ON_REQ_SENT,
-  SEND_REQUEST
+  SEND_REQUEST,
+  MODIFY_ORDER
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -32,3 +33,8 @@ export const sendRequest = req => async dispatch => {
     type: ON_REQ_SENT
   });
 };
+
+export const modifyOrder = order => ({
+  type: MODIFY_ORDER,
+  order
+});

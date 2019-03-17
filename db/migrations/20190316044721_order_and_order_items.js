@@ -26,6 +26,11 @@ exports.up = (knex, Promise) =>
         .unsigned()
         .notNullable();
       table.foreign('item_id').references('menu_items.id');
+
+      table
+        .integer('quantity')
+        .unsigned()
+        .notNullable();
     });
 
 exports.down = (knex, Promise) =>

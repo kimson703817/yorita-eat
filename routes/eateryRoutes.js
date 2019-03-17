@@ -169,7 +169,7 @@ router.get('/menu/:id', async (req, res) => {
 
   try {
     const db_res = await knex('menu_items')
-      .select('name', 'price', 'key_img')
+      .select('id', 'name', 'price', 'key_img')
       .where({ eateries_id });
 
     const data = s3_appendUrl(db_res);
@@ -187,7 +187,7 @@ router.put('/menu', requireLogin, async (req, res) => {
   try {
     const db_res = await knex('menu_items')
       .insert(object)
-      .returning(['name', 'price', 'key_img']);
+      .returning(['id', 'name', 'price', 'key_img']);
     res.status(201).send(db_res[0]);
   } catch (err) {
     console.log(err);

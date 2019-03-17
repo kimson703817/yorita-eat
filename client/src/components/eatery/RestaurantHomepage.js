@@ -8,7 +8,8 @@ import RestaurantMenu from './RestaurantMenu/RestaurantMenu';
 class RestaurantHomepage extends Component {
   state = {
     data: null,
-    editMode: false
+    editMode: false,
+    orderMode: false
   };
 
   async componentDidMount() {
@@ -77,8 +78,8 @@ class RestaurantHomepage extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  return { auth };
+const mapStateToProps = ({ auth, itemsOrdered }) => {
+  return { auth, itemsOrdered };
 };
 
 export default connect(
