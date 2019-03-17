@@ -1,6 +1,4 @@
 const knex = require('../db/knex');
-// const isOwner = require('../middlewares/isOwner');
-const passport = require('passport');
 const requireLogin = require('../middlewares/requireLogin');
 const router = require('express').Router();
 const { deleteResourceObject } = require('../middlewares/s3_manager');
