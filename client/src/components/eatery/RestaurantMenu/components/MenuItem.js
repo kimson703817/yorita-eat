@@ -4,14 +4,25 @@ import React, { Component } from 'react';
 import { modifyOrder } from '../../../../actions';
 
 class MenuItems extends Component {
-  // componentDidMount() {
-  //   const { itemsOrdered } = this.props;
-  //   const { id } = this.props.item;
+  state = {
+    orderOpen: false,
+    orderQuantity: 0
+  };
+  orderObject = null;
 
-  // }
-  onAddItem = event => {
+  componentDidMount() {
+    const { itemsOrdered } = this.props;
+    const { id } = this.props.item;
+
+    if (itemsOrdered) {
+      this.orderObject = itemsOrdered.find(item => item.id === id);
+      console.log(this.orderObject);
+    }
+  }
+
+  onQuantitySubmit = event => {
     event.preventDefault();
-    const quantity = event.target.quantity.value;
+    const { orderQuantity } = this.state;
     const { id, name, price } = this.props.item;
     const { itemsOrdered } = this.props;
 
@@ -19,7 +30,7 @@ class MenuItems extends Component {
       id,
       name,
       price,
-      quantity
+      quantity: orderQuantity
     };
     if (this.props.itemsOrdered === null) {
       this.props.modifyOrder([insert]);
@@ -28,16 +39,28 @@ class MenuItems extends Component {
     }
   };
 
+  // toggleOrderOpen = () => {
+  //   this.setState({ orderOpen: !this.state.orderOpen });
+  // };
+
   renderModal = () => {
     const { id, name, price, key_img, cloudUrl } = this.props.item;
     const { itemsOrdered } = this.props;
-    let orderRecord;
-    if (itemsOrdered) {
-      const item = itemsOrdered.filter(item => {
-        return item.id === id;
-      });
-      if (item.length) orderRecord = item[0];
-    }
+    const { orderQuantity } = this.state;
+
+    // console.log(this.state.orderOpen);
+    // if (!this.state.orderOpen) return;
+    // let orderRecord;
+    // if (itemsOrdered) {
+    //   const item = itemsOrdered.filter(item => {
+    //     return item.id === id;
+    //   });
+    //   if (item.length) {
+    //     orderRecord = item[0];
+    //     console.log(itemsOrdered.indexOf(orderRecord));
+    //     console.log('wassup');
+    //   }
+    // }
     return (
       <div
         className="modal fade"
@@ -62,56 +85,64 @@ class MenuItems extends Component {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form onSubmit={this.onAddItem}>
-              <div className="modal-body">
-                <div className="row">
-                  <div className="col-md-5">
-                    <label>Item</label>
-                    <div>{name}</div>
-                  </div>
-                  <div className="col-md-2">
-                    <label>Item</label>
-                    <div>{price}</div>
-                  </div>
-                  <div className="col-md-4" onSubmit={this.onAddItem}>
-                    <label>Quantity</label>
-                    <div>
-                      <input
-                        type="number"
-                        name="quantity"
-                        min="1"
-                        defaultValue={orderRecord ? orderRecord.quantity : '1'}
-                        style={{ textAlign: 'center', width: '2.5rem' }}
-                      />
-                    </div>
+
+            <div className="modal-body">
+              <div className="row">
+                <div className="col-md-5">
+                  <label>Item</label>
+                  <div>{name}</div>
+                </div>
+                <div className="col-md-2">
+                  <label>Item</label>
+                  <div>{price}</div>
+                </div>
+                <div className="col-md-4">
+                  <label>Quantity</label>
+                  <div>
+                    <input
+                      type="number"
+                      name="quantity"
+                      min="1"
+                      defaultValue={orderQuantity}
+                      style={{ textAlign: 'center', width: '2.5rem' }}
+                      onChange={this.onQuantityChange}
+                    />
                   </div>
                 </div>
               </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="submit"
-                  className="btn main-app-color"
-                  data-dismiss="modal"
-                >
-                  Save changes
-                </button>
-              </div>
-            </form>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-dismiss="modal"
+                onClick={this.toggleOrderOpen}
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                className="btn main-app-color"
+                data-dismiss="modal"
+                onClick={this.onQuantitySubmit}
+              >
+                Save changes
+              </button>
+            </div>
           </div>
         </div>
       </div>
     );
   };
 
+  onQuantityChange = event => {
+    event.preventDefault();
+    this.setState({ orderQuantity: event.target.value });
+  };
+
   render() {
     const { name, price, key_img, cloudUrl } = this.props.item;
+    // console.log(this.orderObject);
     return (
       <div className="card" style={{ textAlign: 'center' }}>
         <img
