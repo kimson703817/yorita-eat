@@ -6,65 +6,38 @@ import { modifyOrder } from '../../../../actions';
 class MenuItems extends Component {
   state = {
     orderOpen: false,
-    orderQuantity: 0
+    orderQty: 0
   };
   orderObject = null;
 
-  componentDidMount() {
-    const { itemsOrdered } = this.props;
-    const { id } = this.props.item;
-
-    if (itemsOrdered) {
-      this.orderObject = itemsOrdered.find(item => item.id === id);
-      console.log(this.orderObject);
-    }
-  }
-
   onQuantitySubmit = event => {
     event.preventDefault();
-    const { orderQuantity } = this.state;
-    const { id, name, price } = this.props.item;
-    const { itemsOrdered } = this.props;
 
-    const insert = {
-      id,
-      name,
-      price,
-      quantity: orderQuantity
-    };
-    if (this.props.itemsOrdered === null) {
-      this.props.modifyOrder([insert]);
+    const { id, name, price, key_img, cloudUrl } = this.props.item;
+    const { orderQty } = this.state;
+    const obj = { name, price, key_img, cloudUrl, qty: orderQty };
+    let updatedOrder = {};
+    let order = JSON.parse(localStorage.getItem('foodOrder'));
+    if (!order) {
+      console.log('no order');
+      updatedOrder[id] = obj;
     } else {
-      this.props.modifyOrder([...itemsOrdered, insert]);
+      updatedOrder = Object.assign({}, order);
+      updatedOrder[id] = obj;
     }
-  };
 
-  // toggleOrderOpen = () => {
-  //   this.setState({ orderOpen: !this.state.orderOpen });
-  // };
+    localStorage.setItem('foodOrder', JSON.stringify(updatedOrder));
+  };
 
   renderModal = () => {
     const { id, name, price, key_img, cloudUrl } = this.props.item;
     const { itemsOrdered } = this.props;
-    const { orderQuantity } = this.state;
+    const { orderQty } = this.state;
 
-    // console.log(this.state.orderOpen);
-    // if (!this.state.orderOpen) return;
-    // let orderRecord;
-    // if (itemsOrdered) {
-    //   const item = itemsOrdered.filter(item => {
-    //     return item.id === id;
-    //   });
-    //   if (item.length) {
-    //     orderRecord = item[0];
-    //     console.log(itemsOrdered.indexOf(orderRecord));
-    //     console.log('wassup');
-    //   }
-    // }
     return (
       <div
         className="modal fade"
-        id="orderItemModal"
+        id={name}
         tabIndex="-1"
         role="dialog"
         aria-labelledby="orderItemModal"
@@ -103,7 +76,7 @@ class MenuItems extends Component {
                       type="number"
                       name="quantity"
                       min="1"
-                      defaultValue={orderQuantity}
+                      defaultValue={orderQty}
                       style={{ textAlign: 'center', width: '2.5rem' }}
                       onChange={this.onQuantityChange}
                     />
@@ -116,7 +89,6 @@ class MenuItems extends Component {
                 type="button"
                 className="btn btn-secondary"
                 data-dismiss="modal"
-                onClick={this.toggleOrderOpen}
               >
                 Close
               </button>
@@ -137,12 +109,17 @@ class MenuItems extends Component {
 
   onQuantityChange = event => {
     event.preventDefault();
-    this.setState({ orderQuantity: event.target.value });
+    this.setState({ orderQty: event.target.value });
+  };
+
+  clearCart = event => {
+    event.preventDefault();
+    localStorage.removeItem('foodOrder');
   };
 
   render() {
-    const { name, price, key_img, cloudUrl } = this.props.item;
-    // console.log(this.orderObject);
+    const { id, name, price, key_img, cloudUrl } = this.props.item;
+
     return (
       <div className="card" style={{ textAlign: 'center' }}>
         <img
@@ -157,23 +134,32 @@ class MenuItems extends Component {
             type="button"
             className="btn-sm main-app-color"
             data-toggle="modal"
-            data-target="#orderItemModal"
+            data-target={`#${name}`}
             style={{ border: '0' }}
           >
             <span>Add to Order</span>
           </button>
           {this.renderModal()}
+          <button type="button" onClick={this.clearCart}>
+            Clear Order
+          </button>
+          <button type="button" onClick={this.print}>
+            Print Test
+          </button>
         </div>
       </div>
     );
   }
+
+  print = e => {
+    e.preventDefault();
+    let order = JSON.parse(localStorage.getItem('foodOrder'));
+    console.log(order);
+  };
 }
 
 const mapStateToProps = ({ itemsOrdered }) => {
   return { itemsOrdered };
 };
 
-export default connect(
-  mapStateToProps,
-  { modifyOrder }
-)(MenuItems);
+export default MenuItems;
