@@ -17,6 +17,7 @@ const Trending = () => <h2>Trending</h2>;
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
+    this.props.fetchOrder();
   }
 
   render() {

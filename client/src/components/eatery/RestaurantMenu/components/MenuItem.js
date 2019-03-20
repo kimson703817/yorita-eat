@@ -1,7 +1,7 @@
 // import axios from 'axios';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { modifyOrder } from '../../../../actions';
+import { addToOrder } from '../../../../actions';
 
 class MenuItems extends Component {
   state = {
@@ -13,26 +13,21 @@ class MenuItems extends Component {
   onQuantitySubmit = event => {
     event.preventDefault();
 
-    const { id, name, price, key_img, cloudUrl } = this.props.item;
     const { orderQty } = this.state;
+    const { id, name, price, key_img, cloudUrl } = this.props.item;
     const obj = { name, price, key_img, cloudUrl, qty: orderQty };
-    let updatedOrder = {};
-    let order = JSON.parse(localStorage.getItem('foodOrder'));
-    if (!order) {
-      console.log('no order');
-      updatedOrder[id] = obj;
-    } else {
-      updatedOrder = Object.assign({}, order);
-      updatedOrder[id] = obj;
-    }
-
-    localStorage.setItem('foodOrder', JSON.stringify(updatedOrder));
+    this.props.addToOrder(id, obj);
   };
 
   renderModal = () => {
     const { id, name, price, key_img, cloudUrl } = this.props.item;
     const { itemsOrdered } = this.props;
-    const { orderQty } = this.state;
+    let quantity = null;
+    if (this.props.itemsOrdered[id]) {
+      quantity = this.props.itemsOrdered[id].qty;
+    } else {
+      quantity = this.state.orderQty;
+    }
 
     return (
       <div
@@ -76,7 +71,7 @@ class MenuItems extends Component {
                       type="number"
                       name="quantity"
                       min="1"
-                      defaultValue={orderQty}
+                      defaultValue={quantity}
                       style={{ textAlign: 'center', width: '2.5rem' }}
                       onChange={this.onQuantityChange}
                     />
@@ -162,4 +157,7 @@ const mapStateToProps = ({ itemsOrdered }) => {
   return { itemsOrdered };
 };
 
-export default MenuItems;
+export default connect(
+  mapStateToProps,
+  { addToOrder }
+)(MenuItems);
