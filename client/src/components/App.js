@@ -8,6 +8,7 @@ import Navbar from './nav/Navbar';
 import AddRestaurantForm from './user/owner/AddRestaurantForm';
 import RestaurantInfoForm from './user/owner/RestaurantInfoForm';
 import RestaurantHomepage from './eatery/RestaurantHomepage';
+import Order from './user/order/Order';
 
 import Home from './home/Home';
 
@@ -44,6 +45,7 @@ class App extends Component {
               path="/eatery/happy-place/:id"
               component={RestaurantHomepage}
             />
+            <Route path="/order" component={Order} />
           </div>
         </BrowserRouter>
       </div>

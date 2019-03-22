@@ -23,9 +23,12 @@ class MenuItems extends Component {
     const { id, name, price, key_img, cloudUrl } = this.props.item;
     const { itemsOrdered } = this.props;
     let quantity = null;
-    if (this.props.itemsOrdered[id]) {
-      quantity = this.props.itemsOrdered[id].qty;
-    } else {
+    if (itemsOrdered) {
+      if (itemsOrdered[id]) {
+        quantity = itemsOrdered[id].qty;
+      }
+    }
+    if (!quantity) {
       quantity = this.state.orderQty;
     }
 

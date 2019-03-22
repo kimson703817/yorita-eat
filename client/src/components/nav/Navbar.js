@@ -76,11 +76,23 @@ class MainNav extends Component {
 
         <div className="navbar navbar-expand-md navbar-light">
           <div className="container">
-            <ul className="navbar-nav mx-auto">
-              {this.renderNavLinkItem('/', 'home', 'Home')}
-              {this.renderNavLinkItem('/trending', 'trending', 'Trending')}
-              {this.renderNavLinkItem('/discover', 'discover', 'Discover')}
-            </ul>
+            <div className="col-sm-8">
+              <ul className="navbar-nav mx-auto">
+                {this.renderNavLinkItem('/', 'home', 'Home')}
+                {this.renderNavLinkItem('/trending', 'trending', 'Trending')}
+                {this.renderNavLinkItem('/discover', 'discover', 'Discover')}
+              </ul>
+            </div>
+            <div className="col-sm-2">
+              <NavLink
+                exact
+                to="/order"
+                name="order"
+                style={{ fontSize: '1.5rem' }}
+              >
+                Cart
+              </NavLink>
+            </div>
           </div>
         </div>
       </div>

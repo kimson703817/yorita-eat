@@ -45,18 +45,14 @@ export const modifyOrder = object => {
 };
 
 export const addToOrder = (id, object) => {
-  // const { id, name, price, key_img, cloudUrl, orderQty } = object;
-
   let updatedOrder = {};
   let order = JSON.parse(localStorage.getItem('foodOrder'));
   if (!order) {
     updatedOrder[id] = object;
   } else {
     if (order[id] === null && object.qty === 0) {
-      console.log('in here');
       return;
     }
-    console.log('out here');
     updatedOrder = Object.assign({}, order);
     updatedOrder[id] = object;
   }
