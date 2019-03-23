@@ -1,22 +1,34 @@
 // import axios from 'axios';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { addToOrder } from '../../../../actions';
+import { addToOrder, modifyOrderQuantity } from '../../../../actions';
 
 class MenuItems extends Component {
   state = {
     orderOpen: false,
-    orderQty: 0
+    orderQty: null
   };
   orderObject = null;
 
   onQuantitySubmit = event => {
     event.preventDefault();
-
-    const { orderQty } = this.state;
     const { id, name, price, key_img, cloudUrl } = this.props.item;
-    const obj = { name, price, key_img, cloudUrl, qty: orderQty };
-    this.props.addToOrder(id, obj);
+    const { itemsOrdered } = this.props;
+    const savedItem = itemsOrdered ? itemsOrdered[id] : null;
+
+    const qty = this.state.orderQty
+      ? this.state.orderQty
+      : savedItem
+      ? savedItem.qty
+      : 1;
+
+    const obj = { name, price, key_img, cloudUrl, qty };
+
+    if (savedItem) {
+      this.props.modifyOrderQuantity(id, obj);
+    } else {
+      this.props.addToOrder(id, obj);
+    }
   };
 
   renderModal = () => {
@@ -65,7 +77,7 @@ class MenuItems extends Component {
                 </div>
                 <div className="col-md-2">
                   <label>Item</label>
-                  <div>{price}</div>
+                  <div>${price}</div>
                 </div>
                 <div className="col-md-4">
                   <label>Quantity</label>
@@ -74,7 +86,7 @@ class MenuItems extends Component {
                       type="number"
                       name="quantity"
                       min="1"
-                      defaultValue={quantity}
+                      defaultValue={quantity ? quantity : 1}
                       style={{ textAlign: 'center', width: '2.5rem' }}
                       onChange={this.onQuantityChange}
                     />
@@ -127,7 +139,7 @@ class MenuItems extends Component {
         />
         <div className="card-body">
           <h5 className="card-title">{name}</h5>
-          <h6 className="card-text">{price}</h6>
+          <h6 className="card-text">${price}</h6>
           <button
             type="button"
             className="btn-sm main-app-color"
@@ -162,5 +174,5 @@ const mapStateToProps = ({ itemsOrdered }) => {
 
 export default connect(
   mapStateToProps,
-  { addToOrder }
+  { addToOrder, modifyOrderQuantity }
 )(MenuItems);

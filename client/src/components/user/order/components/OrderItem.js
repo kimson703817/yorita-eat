@@ -2,9 +2,15 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { removeFromOrder } from '../../../../actions/index';
 
 class OrderItem extends Component {
   onQuantityChange = () => {};
+  onItemRemove = e => {
+    e.preventDefault();
+    const { item } = this.props;
+    this.props.removeFromOrder(item.id);
+  };
 
   render() {
     const { item } = this.props;
@@ -23,7 +29,7 @@ class OrderItem extends Component {
             alt="dish"
           />
           <h6 className="card-title col-sm-7">{name}</h6>
-          <h5 className="col-sm-2">{price}</h5>
+          <h5 className="col-sm-2">${price}</h5>
           <div className="col-sm-1">
             <input
               type="number"
@@ -33,6 +39,14 @@ class OrderItem extends Component {
               style={{ textAlign: 'center', width: '2.5rem', height: '2rem' }}
               onChange={this.onQuantityChange}
             />
+          </div>
+          <div className="col-sm-1">
+            <button
+              className="btn btn-sm btn-danger"
+              onClick={this.onItemRemove}
+            >
+              remove
+            </button>
           </div>
         </div>
       </div>
@@ -46,5 +60,5 @@ const mapStateToProps = ({ auth, itemsOrdered }) => {
 
 export default connect(
   mapStateToProps,
-  null
+  { removeFromOrder }
 )(OrderItem);

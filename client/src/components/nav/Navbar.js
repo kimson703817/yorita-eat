@@ -84,13 +84,8 @@ class MainNav extends Component {
               </ul>
             </div>
             <div className="col-sm-2">
-              <NavLink
-                exact
-                to="/order"
-                name="order"
-                style={{ fontSize: '1.5rem' }}
-              >
-                Cart
+              <NavLink exact to="/order" name="order">
+                Your Order
               </NavLink>
             </div>
           </div>

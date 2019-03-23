@@ -2,11 +2,9 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import OrderItem from './components/OrderItem';
+import OrderItem from '../user/order/components/OrderItem';
 
-class Order extends Component {
-  onQuantityChange = () => {};
-
+class Checkout extends Component {
   renderOrderItem = id => {
     if (id === 'subtotal') return;
     const { itemsOrdered } = this.props;
@@ -26,9 +24,7 @@ class Order extends Component {
         {itemsOrdered && (
           <div className="d-flex flex-row justify-content-center">
             <button className="btn btn-md main-app-color mt-4 ">
-              <NavLink exact to="/order/checkout" name="checkout">
-                Proceed to Checkout ${itemsOrdered.subtotal}
-              </NavLink>
+              Pay ${itemsOrdered.subtotal}
             </button>
           </div>
         )}
@@ -44,4 +40,4 @@ const mapStateToProps = ({ auth, itemsOrdered }) => {
 export default connect(
   mapStateToProps,
   null
-)(Order);
+)(Checkout);
