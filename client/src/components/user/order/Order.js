@@ -5,8 +5,6 @@ import { NavLink } from 'react-router-dom';
 import OrderItem from './components/OrderItem';
 
 class Order extends Component {
-  onQuantityChange = () => {};
-
   renderOrderItem = id => {
     if (id === 'subtotal') return;
     const { itemsOrdered } = this.props;
@@ -27,7 +25,7 @@ class Order extends Component {
           <div className="d-flex flex-row justify-content-center">
             <button className="btn btn-md main-app-color mt-4 ">
               <NavLink exact to="/order/checkout" name="checkout">
-                Proceed to Checkout ${itemsOrdered.subtotal}
+                Proceed to Checkout ${itemsOrdered.subtotal.toFixed(2)}
               </NavLink>
             </button>
           </div>

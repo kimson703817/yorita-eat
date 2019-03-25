@@ -5,14 +5,14 @@ import { addToOrder, modifyOrderQuantity } from '../../../../actions';
 
 class MenuItems extends Component {
   state = {
-    orderOpen: false,
     orderQty: null
   };
   orderObject = null;
 
   onQuantitySubmit = event => {
     event.preventDefault();
-    const { id, name, price, key_img, cloudUrl } = this.props.item;
+    const { id } = this.props.item;
+
     const { itemsOrdered } = this.props;
     const savedItem = itemsOrdered ? itemsOrdered[id] : null;
 
@@ -22,17 +22,18 @@ class MenuItems extends Component {
       ? savedItem.qty
       : 1;
 
-    const obj = { name, price, key_img, cloudUrl, qty };
-
     if (savedItem) {
-      this.props.modifyOrderQuantity(id, obj);
+      this.props.modifyOrderQuantity(id, qty);
     } else {
+      const { name, price, key_img } = this.props.item;
+      const { eateries_id, cloudUrl } = this.props.metadata;
+      const obj = { eateries_id, name, price, key_img, cloudUrl, qty };
       this.props.addToOrder(id, obj);
     }
   };
 
   renderModal = () => {
-    const { id, name, price, key_img, cloudUrl } = this.props.item;
+    const { id, name, price, key_img } = this.props.item;
     const { itemsOrdered } = this.props;
     let quantity = null;
     if (itemsOrdered) {
@@ -128,7 +129,8 @@ class MenuItems extends Component {
   };
 
   render() {
-    const { id, name, price, key_img, cloudUrl } = this.props.item;
+    const { id, name, price, key_img } = this.props.item;
+    const { cloudUrl } = this.props.metadata;
 
     return (
       <div className="card" style={{ textAlign: 'center' }}>

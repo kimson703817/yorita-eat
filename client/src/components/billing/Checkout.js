@@ -13,6 +13,10 @@ class Checkout extends Component {
     return <OrderItem key={item.name} item={{ id, ...item }} />;
   };
 
+  onPayment = e => {
+    e.preventDefault();
+  };
+
   render() {
     const { itemsOrdered } = this.props;
     let keys = null;
@@ -23,7 +27,10 @@ class Checkout extends Component {
         {keys ? keys.map(this.renderOrderItem) : <div />}
         {itemsOrdered && (
           <div className="d-flex flex-row justify-content-center">
-            <button className="btn btn-md main-app-color mt-4 ">
+            <button
+              className="btn btn-md main-app-color mt-4"
+              onClick={this.onPayment}
+            >
               Pay ${itemsOrdered.subtotal}
             </button>
           </div>

@@ -2,10 +2,18 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { removeFromOrder } from '../../../../actions/index';
+import {
+  removeFromOrder,
+  modifyOrderQuantity
+} from '../../../../actions/index';
 
 class OrderItem extends Component {
-  onQuantityChange = () => {};
+  onQuantityChange = event => {
+    event.preventDefault();
+    const qty = event.target.value;
+    const { id } = this.props.item;
+    this.props.modifyOrderQuantity(id, qty);
+  };
   onItemRemove = e => {
     e.preventDefault();
     const { item } = this.props;
@@ -60,5 +68,5 @@ const mapStateToProps = ({ auth, itemsOrdered }) => {
 
 export default connect(
   mapStateToProps,
-  { removeFromOrder }
+  { removeFromOrder, modifyOrderQuantity }
 )(OrderItem);

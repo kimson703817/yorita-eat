@@ -37,21 +37,22 @@ export const sendRequest = req => async dispatch => {
   });
 };
 
-export const modifyOrderQuantity = (id, object) => {
+export const modifyOrderQuantity = (id, qty) => {
   let order = JSON.parse(localStorage.getItem('foodOrder'));
+  const item = order[id];
   if (!order) {
     return { type: null };
   }
-  if (!order[id]) {
+  if (!item) {
     return { type: null };
   }
-  if (order[id].qty === object.qty) {
+  if (item.qty === qty) {
     return { type: null };
   }
-  let updatedSubtotal = order.subtotal - order[id].price * order[id].qty;
-  updatedSubtotal += object.price * object.qty;
+  let updatedSubtotal = order.subtotal - item.price * item.qty;
+  updatedSubtotal += item.price * qty;
   const updatedOrder = Object.assign({}, order);
-  updatedOrder[id].qty = object.qty;
+  updatedOrder[id].qty = qty;
   updatedOrder.subtotal = updatedSubtotal;
   localStorage.setItem('foodOrder', JSON.stringify(updatedOrder));
 

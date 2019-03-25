@@ -115,7 +115,10 @@ class RestaurantMenu extends Component {
 
   renderMenuItem = item => {
     const { cloudUrl } = this.state.data;
-    return <MenuItem key={shortid.generate()} item={{ ...item, cloudUrl }} />;
+    const metadata = { cloudUrl, eateries_id: this.props.restaurantId };
+    return (
+      <MenuItem key={shortid.generate()} item={item} metadata={metadata} />
+    );
   };
 
   render() {
