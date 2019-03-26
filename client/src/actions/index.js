@@ -64,7 +64,7 @@ export const modifyOrderQuantity = (id, qty) => {
 
 /* IMPORTANT */
 /* GO BACK TO ADD MORE ERROR CHECKING HERE LATER IF NEEDED */
-export const addToOrder = (id, object) => {
+export const addToOrder = (id, object, eateries_id) => {
   let updatedOrder = null;
   let order = JSON.parse(localStorage.getItem('foodOrder'));
   if (object.qty === 0) return { type: null };
@@ -73,7 +73,9 @@ export const addToOrder = (id, object) => {
     updatedOrder = {};
     updatedOrder[id] = object;
     updatedOrder.subtotal = object.qty * object.price;
+    updatedOrder.eateries_id = eateries_id;
   } else {
+    if (order.eateries_id !== eateries_id) return { type: null };
     updatedOrder = Object.assign({}, order);
     updatedOrder[id] = object;
 

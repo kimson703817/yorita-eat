@@ -6,7 +6,7 @@ import OrderItem from './components/OrderItem';
 
 class Order extends Component {
   renderOrderItem = id => {
-    if (id === 'subtotal') return;
+    if (id === 'subtotal' || id === 'eateries_id') return;
     const { itemsOrdered } = this.props;
     const item = itemsOrdered[id];
 

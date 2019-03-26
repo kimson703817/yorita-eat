@@ -27,8 +27,8 @@ class MenuItems extends Component {
     } else {
       const { name, price, key_img } = this.props.item;
       const { eateries_id, cloudUrl } = this.props.metadata;
-      const obj = { eateries_id, name, price, key_img, cloudUrl, qty };
-      this.props.addToOrder(id, obj);
+      const obj = { name, price, key_img, cloudUrl, qty };
+      this.props.addToOrder(id, obj, eateries_id);
     }
   };
 

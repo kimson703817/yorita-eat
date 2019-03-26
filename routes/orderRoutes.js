@@ -4,38 +4,42 @@ const router = require('express').Router();
 const { deleteResourceObject } = require('../middlewares/s3_manager');
 const keys = require('../config/keys');
 
-const getInfoFromBody = () => {
-  const { eateries_id, note, total } = req.body;
+const getInfoFromBody = req => {
+  const { eateries_id, note } = req.body.metadata;
   const customer_id = req.user._id;
   return {
     eateries_id,
     note,
-    total,
     customer_id
   };
 };
 
-const getInsertArray = order_id => {
+const getInsertArray = (req, order_id) => {
   const { items } = req.body;
-  return items.map(item_id => {
+  return items.map(({ id, quantity }) => {
     return {
-      item_id,
-      order_id
+      order_id,
+      item_id: id,
+      quantity: quantity
     };
   });
 };
 
 /* Router Functions */
 
+router.get('/', (req, res) => {
+  res.send('wassup man');
+});
+
 router.post('/', async (req, res) => {
-  const order = getInfoFromBody();
+  const order = getInfoFromBody(req);
 
   try {
     const orderRes = await knex.transaction(async trx => {
       const newOrder = await trx.insert(order, 'id').into('restaurant_orders');
-      const items = getInsertArray(newOrder[0]);
+      const items = getInsertArray(req, newOrder[0]);
 
-      const insertRes = await trx.insert(items, 'id').into('food_orders');
+      const insertRes = await trx.insert(items).into('food_orders');
       res.status(201).send(insertRes[0]);
     });
   } catch (error) {
