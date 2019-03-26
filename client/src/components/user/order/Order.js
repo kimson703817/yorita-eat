@@ -6,21 +6,21 @@ import OrderItem from './components/OrderItem';
 
 class Order extends Component {
   renderOrderItem = id => {
-    if (id === 'subtotal' || id === 'eateries_id') return;
-    const { itemsOrdered } = this.props;
-    const item = itemsOrdered[id];
+    const { items } = this.props.itemsOrdered;
+    const item = items[id];
 
     return <OrderItem key={item.name} item={{ id, ...item }} />;
   };
 
   render() {
     const { itemsOrdered } = this.props;
+    const items = itemsOrdered ? itemsOrdered.items : null;
     let keys = null;
-    if (itemsOrdered) keys = Object.keys(itemsOrdered);
+    if (items) keys = Object.keys(items);
 
     return (
       <div className="container">
-        {keys ? keys.map(this.renderOrderItem) : <div />}
+        {keys ? keys.map(this.renderOrderItem) : <div>Order is Empty</div>}
         {itemsOrdered && (
           <div className="d-flex flex-row justify-content-center">
             <button className="btn btn-md main-app-color mt-4 ">

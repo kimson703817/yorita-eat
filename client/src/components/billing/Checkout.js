@@ -6,9 +6,8 @@ import OrderItem from '../user/order/components/OrderItem';
 
 class Checkout extends Component {
   renderOrderItem = id => {
-    if (id === 'subtotal' || id === 'eateries_id') return;
-    const { itemsOrdered } = this.props;
-    const item = itemsOrdered[id];
+    const { items } = this.props.itemsOrdered;
+    const item = items[id];
 
     return <OrderItem key={item.name} item={{ id, ...item }} />;
   };
@@ -19,14 +18,12 @@ class Checkout extends Component {
       eateries_id: this.props.itemsOrdered.eateries_id,
       note: null
     };
-    const order = { ...this.props.itemsOrdered };
-    delete order.subtotal;
-    delete order.eateries_id;
-    const keys = Object.keys(order);
+    const itemList = this.props.itemsOrdered.items;
+    const keys = Object.keys(itemList);
     const items = keys.map(id => {
       return {
         id,
-        quantity: order[id].qty
+        quantity: itemList[id].qty
       };
     });
     // console.log(items);
@@ -39,12 +36,13 @@ class Checkout extends Component {
 
   render() {
     const { itemsOrdered } = this.props;
+    const items = itemsOrdered ? itemsOrdered.items : null;
     let keys = null;
-    if (itemsOrdered) keys = Object.keys(itemsOrdered);
+    if (items) keys = Object.keys(items);
 
     return (
       <div className="container">
-        {keys ? keys.map(this.renderOrderItem) : <div />}
+        {keys ? keys.map(this.renderOrderItem) : <div>Order is Empty</div>}
         {itemsOrdered && (
           <div className="d-flex flex-row justify-content-center">
             <button

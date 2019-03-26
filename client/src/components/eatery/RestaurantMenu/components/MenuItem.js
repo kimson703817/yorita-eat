@@ -14,7 +14,7 @@ class MenuItems extends Component {
     const { id } = this.props.item;
 
     const { itemsOrdered } = this.props;
-    const savedItem = itemsOrdered ? itemsOrdered[id] : null;
+    const savedItem = itemsOrdered ? itemsOrdered.items[id] : null;
 
     const qty = this.state.orderQty
       ? this.state.orderQty
@@ -34,11 +34,13 @@ class MenuItems extends Component {
 
   renderModal = () => {
     const { id, name, price, key_img } = this.props.item;
-    const { itemsOrdered } = this.props;
+    const items = this.props.itemsOrdered
+      ? this.props.itemsOrdered.items
+      : null;
     let quantity = null;
-    if (itemsOrdered) {
-      if (itemsOrdered[id]) {
-        quantity = itemsOrdered[id].qty;
+    if (items) {
+      if (items[id]) {
+        quantity = items[id].qty;
       }
     }
     if (!quantity) {
@@ -136,6 +138,7 @@ class MenuItems extends Component {
       <div className="card" style={{ textAlign: 'center' }}>
         <img
           className="card-img-top"
+          style={{ height: '7.5rem', width: '10rem', objectFit: 'scale-down' }}
           src={`${cloudUrl}/${key_img}`}
           alt="dish"
         />

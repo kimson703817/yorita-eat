@@ -37,34 +37,67 @@ export const sendRequest = req => async dispatch => {
   });
 };
 
-export const modifyOrderQuantity = (id, qty) => {
-  let order = JSON.parse(localStorage.getItem('foodOrder'));
-  const item = order[id];
-  if (!order) {
+export const modifyOrderQuantity = (id, newQty) => {
+  let old = JSON.parse(localStorage.getItem('foodOrder'));
+  if (!old) {
     return { type: null };
   }
-  if (!item) {
+  if (!old.items[id]) {
     return { type: null };
   }
-  if (item.qty === qty) {
+  if (old.items[id].qty === newQty) {
     return { type: null };
   }
-  let updatedSubtotal = order.subtotal - item.price * item.qty;
-  updatedSubtotal += item.price * qty;
-  const updatedOrder = Object.assign({}, order);
-  updatedOrder[id].qty = qty;
-  updatedOrder.subtotal = updatedSubtotal;
-  localStorage.setItem('foodOrder', JSON.stringify(updatedOrder));
+
+  const { price } = old.items[id];
+
+  const updated = {
+    ...old,
+    items: { ...old.items },
+    subtotal: old.subtotal - price * old.items[id].qty + price * newQty
+  };
+  updated.items[id] = { ...old.items[id], qty: newQty };
+
+  localStorage.setItem('foodOrder', JSON.stringify(updated));
 
   return {
     type: MODIFY_ORDER_QUANTITY,
-    order: updatedOrder
+    order: updated
   };
 };
 
 /* IMPORTANT */
 /* GO BACK TO ADD MORE ERROR CHECKING HERE LATER IF NEEDED */
 export const addToOrder = (id, object, eateries_id) => {
+  let updated = null;
+  let items = null;
+  let order = JSON.parse(localStorage.getItem('foodOrder'));
+  if (object.qty === 0) return { type: null };
+
+  if (!order) {
+    items = {};
+    items[id] = object;
+    updated = { eateries_id, items, subtotal: object.qty * object.price };
+  } else {
+    if (order.eateries_id !== eateries_id) return { type: null };
+    if (order.items[id]) return { type: null };
+
+    updated = {
+      ...order,
+      items: { ...order.items },
+      subtotal: order.subtotal + object.qty * object.price
+    };
+    updated.items[id] = object;
+  }
+
+  localStorage.setItem('foodOrder', JSON.stringify(updated));
+  return {
+    type: ADD_TO_ORDER,
+    order: updated
+  };
+};
+
+export const addToOrderV1 = (id, object, eateries_id) => {
   let updatedOrder = null;
   let order = JSON.parse(localStorage.getItem('foodOrder'));
   if (object.qty === 0) return { type: null };
@@ -92,15 +125,19 @@ export const addToOrder = (id, object, eateries_id) => {
 export const removeFromOrder = id => {
   const order = JSON.parse(localStorage.getItem('foodOrder'));
   if (!order) return;
-  const updatedSubtotal = order.subtotal - order[id].qty * order[id].price;
-  delete order[id];
-  const updatedOrder = Object.assign({}, order);
+  const updatedSubtotal =
+    order.subtotal - order.items[id].qty * order.items[id].price;
+  const updated = {
+    ...order,
+    items: { ...order.items },
+    subtotal: updatedSubtotal
+  };
+  delete updated.items[id];
 
-  updatedOrder.subtotal = updatedSubtotal;
-  localStorage.setItem('foodOrder', JSON.stringify(updatedOrder));
+  localStorage.setItem('foodOrder', JSON.stringify(updated));
   return {
     type: REMOVE_FROM_ORDER,
-    order: updatedOrder
+    order: updated
   };
 };
 
