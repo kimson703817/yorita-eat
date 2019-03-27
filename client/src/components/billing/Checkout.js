@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import OrderItem from '../user/order/components/OrderItem';
+import StripeCheckout from 'react-stripe-checkout';
 
 class Checkout extends Component {
   renderOrderItem = id => {
@@ -34,7 +35,20 @@ class Checkout extends Component {
     console.log(apiRes.data);
   };
 
+  onToken = async token => {
+    const amount = this.props.itemsOrdered.subtotal * 100;
+    const description = 'Customer payment to restaurant.';
+    const res = await axios.post('/api/payment/stripe', {
+      amount,
+      currency: 'usd',
+      description,
+      source: token.id
+    });
+    console.log(res.data);
+  };
+
   render() {
+    console.log(process.env);
     const { itemsOrdered } = this.props;
     const items = itemsOrdered ? itemsOrdered.items : null;
     let keys = null;
@@ -45,12 +59,17 @@ class Checkout extends Component {
         {keys ? keys.map(this.renderOrderItem) : <div>Order is Empty</div>}
         {itemsOrdered && (
           <div className="d-flex flex-row justify-content-center">
-            <button
-              className="btn btn-md main-app-color mt-4"
-              onClick={this.onPayment}
+            <StripeCheckout
+              name="yorita-eatery-pay"
+              description="Customer payment to restaurant"
+              amount={itemsOrdered.subtotal * 100}
+              token={this.onToken}
+              stripeKey={process.env.REACT_APP_STRIPE_PK}
             >
-              Pay ${itemsOrdered.subtotal.toFixed(2)}
-            </button>
+              <button className="btn btn-md main-app-color mt-4">
+                Pay ${itemsOrdered.subtotal.toFixed(2)}
+              </button>
+            </StripeCheckout>
           </div>
         )}
       </div>

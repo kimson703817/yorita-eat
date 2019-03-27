@@ -50,7 +50,6 @@ class RestaurantMenu extends Component {
     };
 
     let apiRes;
-    console.log(this.state.file);
     if (imgFile) {
       const uploadConfig = await axios.get('/api/resource/upload/image');
       const { url } = uploadConfig.data;
