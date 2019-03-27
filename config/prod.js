@@ -17,5 +17,9 @@ module.exports = {
   storageServiceProvider: process.env.STORAGE_SERVICE_PROVIDER,
   placeholderImages: {
     restaurantIcon: process.env.PLACEHOLDER_RESTAURANT_ICON
+  },
+  payment: {
+    stripePK: process.env.stripePK,
+    stripeSK: process.env.stripeSK
   }
 };
