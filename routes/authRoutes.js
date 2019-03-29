@@ -8,7 +8,7 @@ router.get(
   '/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   (req, res) => {
-    const redirectURI = clientURI + '/discover/joy';
+    const redirectURI = clientURI + '/eatery/discover';
     res.redirect(redirectURI);
   }
 );
