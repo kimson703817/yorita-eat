@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import shortid from 'shortid';
 
 import { onRequestSent } from '../../../actions';
 import { stateOptions } from '../../form_builders/utils/stateOptions';
@@ -100,7 +101,9 @@ class RestaurantInfoForm extends Component {
                   onChange={this.onSelectChange}
                 >
                   {stateOptions.map(option => (
-                    <option value={option.value}>{option.text}</option>
+                    <option key={shortid.generate()} value={option.value}>
+                      {option.text}
+                    </option>
                   ))}
                 </select>
               </div>

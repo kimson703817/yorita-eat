@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import shortid from 'shortid';
 
 import { stateOptions } from '../../../form_builders/utils/stateOptions';
 
@@ -29,6 +30,7 @@ class RestaurantAddress extends Component {
 
   renderCityStateZip = () => {
     const { city, state, zipcode } = this.props.address;
+    console.log(state);
 
     if (this.props.editMode) {
       return (
@@ -48,11 +50,14 @@ class RestaurantAddress extends Component {
             <select
               className="col-md-5 form-control form-control-sm"
               name="state"
+              defaultValue={state}
               onChange={this.handleStateSelect}
             >
-              <option value="AL">AL</option>
-              <option value="CA">CA</option>
-              <option value="MN">MN</option>
+              {stateOptions.map(option => (
+                <option key={shortid.generate()} value={option.value}>
+                  {option.text}
+                </option>
+              ))}
             </select>
             <div className="restaurant-edit-zip col-md-5">
               <input
