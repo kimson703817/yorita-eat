@@ -83,11 +83,11 @@ class RestaurantMenu extends Component {
         <div className="card-body">
           <div className="form-group">
             <label>Item Name</label>
-            <input className="form-control" name="name" />
+            <input autoComplete="off" className="form-control" name="name" />
           </div>
           <div className="form-group">
             <label>Price</label>
-            <input className="form-control" name="price" />
+            <input autoComplete="off" className="form-control" name="price" />
           </div>
           <div className="form-group">
             <input
