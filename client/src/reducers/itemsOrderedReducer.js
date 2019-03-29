@@ -2,7 +2,8 @@ import {
   ADD_TO_ORDER,
   FETCH_ORDER,
   REMOVE_FROM_ORDER,
-  MODIFY_ORDER_QUANTITY
+  MODIFY_ORDER_QUANTITY,
+  ON_CHECKOUT
 } from '../actions/types';
 
 export default (state = null, action) => {
@@ -15,6 +16,8 @@ export default (state = null, action) => {
       return action.order;
     case FETCH_ORDER:
       return action.order;
+    case ON_CHECKOUT:
+      return null;
     default:
       return state;
   }

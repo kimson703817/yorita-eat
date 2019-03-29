@@ -6,7 +6,7 @@ const keys = require('../config/keys');
 
 const getInfoFromBody = req => {
   const { eateries_id, note } = req.body.metadata;
-  const customer_id = req.user._id;
+  const customer_id = req.user ? req.user._id : null;
   return {
     eateries_id,
     note,

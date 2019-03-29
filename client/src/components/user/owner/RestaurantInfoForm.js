@@ -99,9 +99,9 @@ class RestaurantInfoForm extends Component {
                   name="state"
                   onChange={this.onSelectChange}
                 >
-                  <option value="AL">AL</option>
-                  <option value="CA">CA</option>
-                  <option value="MN">MN</option>
+                  {stateOptions.map(option => (
+                    <option value={option.value}>{option.text}</option>
+                  ))}
                 </select>
               </div>
               <div className="col-md-3">

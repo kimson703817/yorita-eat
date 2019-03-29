@@ -125,10 +125,10 @@ class MenuItems extends Component {
     this.setState({ orderQty: event.target.value });
   };
 
-  clearCart = event => {
-    event.preventDefault();
-    localStorage.removeItem('foodOrder');
-  };
+  // clearCart = event => {
+  //   event.preventDefault();
+  //   localStorage.removeItem('foodOrder');
+  // };
 
   render() {
     const { id, name, price, key_img } = this.props.item;
@@ -155,22 +155,16 @@ class MenuItems extends Component {
             <span>Add to Order</span>
           </button>
           {this.renderModal()}
-          <button type="button" onClick={this.clearCart}>
-            Clear Order
-          </button>
-          <button type="button" onClick={this.print}>
-            Print Test
-          </button>
         </div>
       </div>
     );
   }
 
-  print = e => {
-    e.preventDefault();
-    let order = JSON.parse(localStorage.getItem('foodOrder'));
-    console.log(order);
-  };
+  // print = e => {
+  //   e.preventDefault();
+  //   let order = JSON.parse(localStorage.getItem('foodOrder'));
+  //   console.log(order);
+  // };
 }
 
 const mapStateToProps = ({ itemsOrdered }) => {

@@ -1,7 +1,7 @@
 exports.up = (knex, Promise) =>
   knex.schema
     .createTable('restaurant_orders', table => {
-      table.uuid('customer_id').notNullable();
+      table.uuid('customer_id');
       table.foreign('customer_id').references('users._id');
 
       table

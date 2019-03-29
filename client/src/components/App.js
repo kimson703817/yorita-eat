@@ -10,11 +10,11 @@ import RestaurantInfoForm from './user/owner/RestaurantInfoForm';
 import RestaurantHomepage from './eatery/RestaurantHomepage';
 import Order from './user/order/Order';
 import Checkout from './billing/Checkout';
+import Discover from './eatery/Discover';
 
 import Home from './home/Home';
 
-const Discover = () => <h2>Discover</h2>;
-const Trending = () => <h2>Trending</h2>;
+const Trending = () => <div className="container">Under Construction</div>;
 
 class App extends Component {
   componentDidMount() {
@@ -29,8 +29,8 @@ class App extends Component {
           <div>
             <Navbar />
             <Route exact path="/" component={Home} />
-            <Route path="/discover" component={Discover} />
-            <Route path="/trending" component={Trending} />
+            <Route path="/eatery/discover" component={Discover} />
+            <Route path="/eatery/trending" component={Trending} />
             {/*<Route path="/owner/heartfelt-welcome" component={OwnerWelcome} />*/}
             <Route
               exact

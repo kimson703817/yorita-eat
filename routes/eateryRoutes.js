@@ -73,6 +73,18 @@ const getMenuDataFromBody = body => {
 
 /** FETCH RESTAURANT using id**/
 
+router.get('/', async (req, res) => {
+  try {
+    const db_res = await knex.schema.raw(
+      'SELECT * FROM eateries ORDER BY RANDOM() LIMIT 10'
+    );
+    res.status(200).send(db_res.rows);
+  } catch (err) {
+    console.log(err);
+    res.status(err.status || 500).send(err);
+  }
+});
+
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
 

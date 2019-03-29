@@ -79,12 +79,20 @@ class MainNav extends Component {
             <div className="col-sm-8">
               <ul className="navbar-nav mx-auto">
                 {this.renderNavLinkItem('/', 'home', 'Home')}
-                {this.renderNavLinkItem('/trending', 'trending', 'Trending')}
-                {this.renderNavLinkItem('/discover', 'discover', 'Discover')}
+                {this.renderNavLinkItem(
+                  '/eatery/trending',
+                  'trending',
+                  'Trending'
+                )}
+                {this.renderNavLinkItem(
+                  '/eatery/discover',
+                  'discover',
+                  'Discover'
+                )}
               </ul>
             </div>
-            <div className="col-sm-2">
-              <NavLink exact to="/order" name="order">
+            <div className="col-sm-2 navbar-nav">
+              <NavLink className="nav-link" exact to="/order" name="order">
                 Your Order
               </NavLink>
             </div>

@@ -24,7 +24,12 @@ class Order extends Component {
         {itemsOrdered && (
           <div className="d-flex flex-row justify-content-center">
             <button className="btn btn-md main-app-color mt-4 ">
-              <NavLink exact to="/order/checkout" name="checkout">
+              <NavLink
+                style={{ color: 'black' }}
+                exact
+                to="/order/checkout"
+                name="checkout"
+              >
                 Proceed to Checkout ${itemsOrdered.subtotal.toFixed(2)}
               </NavLink>
             </button>

@@ -1,11 +1,16 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import OrderItem from '../user/order/components/OrderItem';
 import StripeCheckout from 'react-stripe-checkout';
 
+import { onCheckout } from '../../actions';
+
 class Checkout extends Component {
+  state = {
+    apiRes: null
+  };
   renderOrderItem = id => {
     const { items } = this.props.itemsOrdered;
     const item = items[id];
@@ -13,8 +18,14 @@ class Checkout extends Component {
     return <OrderItem key={item.name} item={{ id, ...item }} />;
   };
 
-  onPayment = async e => {
-    e.preventDefault();
+  componentWillUnmount() {
+    const { apiRes } = this.state;
+    if (apiRes) {
+      this.props.onCheckout(apiRes);
+    }
+  }
+
+  onPayment = async res => {
     const metadata = {
       eateries_id: this.props.itemsOrdered.eateries_id,
       note: null
@@ -27,29 +38,42 @@ class Checkout extends Component {
         quantity: itemList[id].qty
       };
     });
-    // console.log(items);
-    const apiRes = await axios.post('/api/order/food/', {
-      items,
-      metadata
-    });
-    console.log(apiRes.data);
+    try {
+      const apiRes = await axios.post('/api/order/food/', {
+        items,
+        metadata,
+        payment_id: res.id
+      });
+      this.setState({ apiRes: apiRes });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   onToken = async token => {
     const amount = this.props.itemsOrdered.subtotal * 100;
     const description = 'Customer payment to restaurant.';
-    const res = await axios.post('/api/payment/stripe', {
-      amount,
-      currency: 'usd',
-      description,
-      source: token.id
-    });
-    console.log(res.data);
+    try {
+      const res = await axios.post('/api/payment/stripe', {
+        amount,
+        currency: 'usd',
+        description,
+        source: token.id
+      });
+      this.onPayment(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   render() {
-    console.log(process.env);
     const { itemsOrdered } = this.props;
+    if (this.state.apiRes) {
+      return (
+        <Redirect to={`/eatery/happy-place/${itemsOrdered.eateries_id}`} />
+      );
+    }
+
     const items = itemsOrdered ? itemsOrdered.items : null;
     let keys = null;
     if (items) keys = Object.keys(items);
@@ -83,5 +107,5 @@ const mapStateToProps = ({ auth, itemsOrdered }) => {
 
 export default connect(
   mapStateToProps,
-  null
+  { onCheckout }
 )(Checkout);

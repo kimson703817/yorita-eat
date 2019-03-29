@@ -7,7 +7,8 @@ import {
   FETCH_ORDER,
   ADD_TO_ORDER,
   REMOVE_FROM_ORDER,
-  MODIFY_ORDER_QUANTITY
+  MODIFY_ORDER_QUANTITY,
+  ON_CHECKOUT
 } from './types';
 
 export const fetchUser = () => async dispatch => {
@@ -146,5 +147,13 @@ export const fetchOrder = () => {
   return {
     type: FETCH_ORDER,
     order
+  };
+};
+
+export const onCheckout = res => {
+  localStorage.removeItem('foodOrder');
+  return {
+    type: ON_CHECKOUT,
+    res
   };
 };

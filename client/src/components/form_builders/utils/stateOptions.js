@@ -1,4 +1,5 @@
 export const stateOptions = [
+  {},
   {
     key: 'AL',
     value: 'AL',
