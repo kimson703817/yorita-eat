@@ -129,14 +129,18 @@ export const removeFromOrder = id => {
   const updatedSubtotal =
     (100 * (order.subtotal - order.items[id].qty * order.items[id].price)) /
     100;
-  const updated = {
+  let updated = {
     ...order,
     items: { ...order.items },
     subtotal: updatedSubtotal
   };
   delete updated.items[id];
-
-  localStorage.setItem('foodOrder', JSON.stringify(updated));
+  if (!Object.keys(updated.items).length) {
+    localStorage.removeItem('foodOrder');
+    updated = null;
+  } else {
+    localStorage.setItem('foodOrder', JSON.stringify(updated));
+  }
   return {
     type: REMOVE_FROM_ORDER,
     order: updated
