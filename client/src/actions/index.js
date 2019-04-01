@@ -78,7 +78,11 @@ export const addToOrder = (id, object, eateries_id) => {
   if (!order) {
     items = {};
     items[id] = object;
-    updated = { eateries_id, items, subtotal: object.qty * object.price };
+    updated = {
+      eateries_id,
+      items,
+      subtotal: (100 * (object.qty * object.price)) / 100
+    };
   } else {
     if (order.eateries_id !== eateries_id) return { type: null };
     if (order.items[id]) return { type: null };
