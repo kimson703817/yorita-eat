@@ -91,7 +91,7 @@ class Checkout extends Component {
             <StripeCheckout
               name="yorita-eatery-pay"
               description="Customer payment to restaurant"
-              amount={itemsOrdered.subtotal * 100}
+              amount={itemsOrdered.subtotal}
               token={this.onToken}
               stripeKey={process.env.REACT_APP_STRIPE_PK}
             >
