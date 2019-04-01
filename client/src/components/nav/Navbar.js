@@ -91,10 +91,22 @@ class MainNav extends Component {
                 )}
               </ul>
             </div>
-            <div className="col-sm-2 navbar-nav">
-              <NavLink className="nav-link" exact to="/order" name="order">
-                Your Order
-              </NavLink>
+            <div className="col-sm-3 navbar-nav">
+              {this.props.itemsOrdered && (
+                <NavLink
+                  className="nav-link"
+                  exact
+                  to="/order"
+                  name="order"
+                  style={{ fontSize: '1.2rem' }}
+                >
+                  <strong>
+                    Your Subtotal
+                    {this.props.itemsOrdered &&
+                      `: $${this.props.itemsOrdered.subtotal}`}
+                  </strong>
+                </NavLink>
+              )}
             </div>
           </div>
         </div>
@@ -103,8 +115,8 @@ class MainNav extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  return { auth };
+const mapStateToProps = ({ auth, itemsOrdered }) => {
+  return { auth, itemsOrdered };
 };
 
 export default connect(mapStateToProps)(MainNav);
