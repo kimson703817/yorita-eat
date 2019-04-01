@@ -57,6 +57,11 @@ class MainNav extends Component {
     </li>
   );
 
+  displayMoney = n => {
+    const value = n / 100;
+    return value.toFixed(2);
+  };
+
   render() {
     return (
       <div>
@@ -103,7 +108,9 @@ class MainNav extends Component {
                   <strong>
                     Your Subtotal
                     {this.props.itemsOrdered &&
-                      `: $${this.props.itemsOrdered.subtotal}`}
+                      `: $${this.displayMoney(
+                        this.props.itemsOrdered.subtotal
+                      )}`}
                   </strong>
                 </NavLink>
               )}

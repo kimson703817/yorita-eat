@@ -66,6 +66,11 @@ class Checkout extends Component {
     }
   };
 
+  displayMoney = n => {
+    const value = n / 100;
+    return value.toFixed(2);
+  };
+
   render() {
     const { itemsOrdered } = this.props;
     if (this.state.apiRes) {
@@ -91,7 +96,7 @@ class Checkout extends Component {
               stripeKey={process.env.REACT_APP_STRIPE_PK}
             >
               <button className="btn btn-md main-app-color mt-4">
-                Pay ${itemsOrdered.subtotal.toFixed(2)}
+                Pay ${this.displayMoney(itemsOrdered.subtotal)}
               </button>
             </StripeCheckout>
           </div>

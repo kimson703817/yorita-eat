@@ -55,7 +55,8 @@ export const modifyOrderQuantity = (id, newQty) => {
   const updated = {
     ...old,
     items: { ...old.items },
-    subtotal: old.subtotal - price * old.items[id].qty + price * newQty
+    subtotal:
+      old.subtotal - 100 * price * old.items[id].qty + 100 * price * newQty
   };
   updated.items[id] = { ...old.items[id], qty: newQty };
 
@@ -81,7 +82,7 @@ export const addToOrder = (id, object, eateries_id) => {
     updated = {
       eateries_id,
       items,
-      subtotal: (100 * (object.qty * object.price)) / 100
+      subtotal: 100 * object.qty * object.price
     };
   } else {
     if (order.eateries_id !== eateries_id) return { type: null };
@@ -90,7 +91,7 @@ export const addToOrder = (id, object, eateries_id) => {
     updated = {
       ...order,
       items: { ...order.items },
-      subtotal: (100 * (order.subtotal + object.qty * object.price)) / 100
+      subtotal: order.subtotal + object.qty * object.price * 100
     };
     updated.items[id] = object;
   }
@@ -131,8 +132,7 @@ export const removeFromOrder = id => {
   const order = JSON.parse(localStorage.getItem('foodOrder'));
   if (!order) return;
   const updatedSubtotal =
-    (100 * (order.subtotal - order.items[id].qty * order.items[id].price)) /
-    100;
+    order.subtotal - 100 * order.items[id].qty * order.items[id].price;
   let updated = {
     ...order,
     items: { ...order.items },
