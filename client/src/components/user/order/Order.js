@@ -12,6 +12,11 @@ class Order extends Component {
     return <OrderItem key={item.name} item={{ id, ...item }} />;
   };
 
+  displayMoney = n => {
+    const value = n / 100;
+    return value.toFixed(2);
+  };
+
   render() {
     const { itemsOrdered } = this.props;
     const items = itemsOrdered ? itemsOrdered.items : null;
@@ -30,7 +35,7 @@ class Order extends Component {
                 to="/order/checkout"
                 name="checkout"
               >
-                Proceed to Checkout ${itemsOrdered.subtotal.toFixed(2)}
+                Proceed to Checkout ${this.displayMoney(itemsOrdered.subtotal)}
               </NavLink>
             </button>
           </div>
