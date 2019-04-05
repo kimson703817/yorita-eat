@@ -134,7 +134,7 @@ class MenuItems extends Component {
   render() {
     const { id, name, price, key_img } = this.props.item;
     const { cloudUrl } = this.props.metadata;
-    const { itemsOrdered } = this.props;
+    const { itemsOrdered, active } = this.props;
     const item = itemsOrdered
       ? itemsOrdered.items[id]
         ? itemsOrdered.items[id]
@@ -153,26 +153,34 @@ class MenuItems extends Component {
           <h5 className="card-title">{name} </h5>
 
           <h6 className="card-text">${price}</h6>
-          {item ? (
-            <button
-              type="button"
-              className="btn-lg btn-success"
-              data-toggle="modal"
-              data-target={`#${name}`}
-              style={{ border: '0', background: '#906e13', color: '#fefcf5' }}
-            >
-              <span>Ordered: {item.qty}</span>
-            </button>
+          {active ? (
+            item ? (
+              <button
+                type="button"
+                className="btn-lg btn-success"
+                data-toggle="modal"
+                data-target={`#${name}`}
+                style={{ border: '0', background: '#906e13', color: '#fefcf5' }}
+              >
+                <span>Ordered: {item.qty}</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn-lg main-app-color"
+                data-toggle="modal"
+                data-target={`#${name}`}
+                style={{ border: '0', color: '#443409' }}
+              >
+                <span>Order</span>
+              </button>
+            )
           ) : (
-            <button
-              type="button"
-              className="btn-lg main-app-color"
-              data-toggle="modal"
-              data-target={`#${name}`}
-              style={{ border: '0', color: '#443409' }}
-            >
-              <span>Order</span>
-            </button>
+            <div>
+              <button type="button" className="btn-sm" style={{ border: '0' }}>
+                <span>Edit</span>
+              </button>
+            </div>
           )}
           {this.renderModal()}
         </div>
