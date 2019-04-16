@@ -26,7 +26,9 @@ class Checkout extends Component {
   }
 
   onPayment = async res => {
-    const metadata = {
+    console.log(this.props.itemsOrdered.subtotal);
+    const data = {
+      subtotal: this.props.itemsOrdered.subtotal * 100,
       eateries_id: this.props.itemsOrdered.eateries_id,
       note: null
     };
@@ -41,7 +43,7 @@ class Checkout extends Component {
     try {
       const apiRes = await axios.post('/api/order/food/', {
         items,
-        metadata,
+        data,
         payment_id: res.id
       });
       this.setState({ apiRes: apiRes });

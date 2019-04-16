@@ -31,7 +31,7 @@ app.use('/auth', routes.auth);
 app.use('/api/eatery', routes.eatery);
 app.use('/api/resource', routes.resource);
 app.use('/api/payment', routes.payment);
-app.use('/api/order/food', routes.order);
+app.use('/api/order', routes.order);
 
 if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets

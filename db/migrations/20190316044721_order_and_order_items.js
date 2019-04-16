@@ -12,7 +12,16 @@ exports.up = (knex, Promise) =>
 
       table.increments('id');
       table.text('note');
-      table.float('total');
+
+      // additions
+      // Excellent - 5, Very Good - 4, Decent - 3, No strong feeling - 2, Bad - 1
+      table
+        .datetime('order_date')
+        .notNullable()
+        .defaultTo(knex.fn.now());
+      table.decimal('total', 12, 2);
+      table.decimal('service_rating');
+      table.text('feedback');
     })
     .createTable('food_orders', table => {
       table
@@ -31,6 +40,10 @@ exports.up = (knex, Promise) =>
         .integer('quantity')
         .unsigned()
         .notNullable();
+
+      // additions
+      table.text('feedback');
+      table.float('rating');
     });
 
 exports.down = (knex, Promise) =>

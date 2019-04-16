@@ -5,12 +5,13 @@ const { deleteResourceObject } = require('../middlewares/s3_manager');
 const keys = require('../config/keys');
 
 const getInfoFromBody = req => {
-  const { eateries_id, note } = req.body.metadata;
+  const { eateries_id, note, subtotal } = req.body.data;
   const customer_id = req.user ? req.user._id : null;
   return {
     eateries_id,
     note,
-    customer_id
+    customer_id,
+    total: subtotal
   };
 };
 
@@ -31,7 +32,41 @@ router.get('/', (req, res) => {
   res.send('wassup man');
 });
 
-router.post('/', async (req, res) => {
+router.get('/history/user', async (req, res) => {
+  try {
+    // const orderHistory = await knex
+    //   .select(
+    //     'restaurant_orders.id',
+    //     'food_orders.item_id',
+    //     'food_orders.quantity'
+    //   )
+    //   .from('restaurant_orders')
+    //   .innerJoin('food_orders', 'restaurant_orders.id', 'food_orders.order_id')
+    //   .where('restaurant_orders.customer_id', req.user._id);
+
+    const orderHistory = await knex('restaurant_orders')
+      .innerJoin('food_orders', 'restaurant_orders.id', 'food_orders.order_id')
+      .select(
+        'restaurant_orders.id',
+        knex.raw(`
+          ARRAY_AGG(
+            json_build_object(
+              \'itemID:\', food_orders.item_id,
+              \'itemQty:\', food_orders.quantity
+            )
+          ) AS items`),
+        'restaurant_orders.total'
+      )
+      .where('restaurant_orders.customer_id', req.user._id)
+      .groupBy('restaurant_orders.id');
+    res.send(orderHistory);
+  } catch (error) {
+    console.log(error);
+    res.status(error.status || 500);
+  }
+});
+
+router.post('/food', async (req, res) => {
   const order = getInfoFromBody(req);
 
   try {
