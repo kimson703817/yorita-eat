@@ -5,24 +5,32 @@ import { addToOrder, modifyOrderQuantity } from '../../../../actions';
 import Octicon, { Check } from '@githubprimer/octicons-react';
 
 class MenuItems extends Component {
+  // State to keep track of the quantity that is being ordered of this item.
   state = {
     orderQty: null
   };
-  orderObject = null;
 
+  // When this item is ordered, update the local storage shopping cart
   onQuantitySubmit = event => {
     event.preventDefault();
+    // Database ID for this specific item
     const { id } = this.props.item;
 
+    // The shopping cart object mapped from the Redux store.
     const { itemsOrdered } = this.props;
+
+    // Check to see if the item is already in the cart
     const savedItem = itemsOrdered ? itemsOrdered.items[id] : null;
 
+    // If orderQty state has been changed, use as new qty, otherwise get qty from shopping cart, default to 1.
     const qty = this.state.orderQty
       ? this.state.orderQty
       : savedItem
       ? savedItem.qty
       : 1;
 
+    // if item is already in cart, modify the quantity
+    // else pass in the item object
     if (savedItem) {
       this.props.modifyOrderQuantity(id, qty);
     } else {
@@ -38,12 +46,18 @@ class MenuItems extends Component {
     const items = this.props.itemsOrdered
       ? this.props.itemsOrdered.items
       : null;
+
+    // display quantity
     let quantity = null;
+
+    // if this item is already in shopping cart, get the quantity from the shopping cart
     if (items) {
       if (items[id]) {
         quantity = items[id].qty;
       }
     }
+
+    // otherwise, get item quantity from state
     if (!quantity) {
       quantity = this.state.orderQty;
     }
@@ -126,11 +140,6 @@ class MenuItems extends Component {
     this.setState({ orderQty: event.target.value });
   };
 
-  // clearCart = event => {
-  //   event.preventDefault();
-  //   localStorage.removeItem('foodOrder');
-  // };
-
   render() {
     const { id, name, price, key_img } = this.props.item;
     const { cloudUrl } = this.props.metadata;
@@ -141,6 +150,9 @@ class MenuItems extends Component {
         : null
       : null;
 
+    // render card for this menu item
+    // the "Order" button is only active outside of Edit Mode, otherwise display the "Edit" button
+    // button will display the order quantity if this item is in the user's shopping cart
     return (
       <div className="card" style={{ textAlign: 'center' }}>
         <img
@@ -187,12 +199,6 @@ class MenuItems extends Component {
       </div>
     );
   }
-
-  // print = e => {
-  //   e.preventDefault();
-  //   let order = JSON.parse(localStorage.getItem('foodOrder'));
-  //   console.log(order);
-  // };
 }
 
 const mapStateToProps = ({ itemsOrdered }) => {
