@@ -28,7 +28,7 @@ class Checkout extends Component {
   onPayment = async res => {
     console.log(this.props.itemsOrdered.subtotal);
     const data = {
-      subtotal: this.props.itemsOrdered.subtotal * 100,
+      subtotal: this.props.itemsOrdered.subtotal,
       eateries_id: this.props.itemsOrdered.eateries_id,
       note: null
     };
@@ -53,7 +53,7 @@ class Checkout extends Component {
   };
 
   onToken = async token => {
-    const amount = this.props.itemsOrdered.subtotal * 100;
+    const amount = this.props.itemsOrdered.subtotal;
     const description = 'Customer payment to restaurant.';
     try {
       const res = await axios.post('/api/payment/stripe', {

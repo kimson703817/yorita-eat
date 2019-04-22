@@ -34,31 +34,28 @@ router.get('/', (req, res) => {
 
 router.get('/history/user', async (req, res) => {
   try {
-    // const orderHistory = await knex
-    //   .select(
-    //     'restaurant_orders.id',
-    //     'food_orders.item_id',
-    //     'food_orders.quantity'
-    //   )
-    //   .from('restaurant_orders')
-    //   .innerJoin('food_orders', 'restaurant_orders.id', 'food_orders.order_id')
-    //   .where('restaurant_orders.customer_id', req.user._id);
-
     const orderHistory = await knex('restaurant_orders')
       .innerJoin('food_orders', 'restaurant_orders.id', 'food_orders.order_id')
+      .innerJoin('eateries', 'restaurant_orders.eateries_id', 'eateries.id')
       .select(
         'restaurant_orders.id',
+        'restaurant_orders.order_date',
         knex.raw(`
-          ARRAY_AGG(
-            json_build_object(
-              \'itemID:\', food_orders.item_id,
-              \'itemQty:\', food_orders.quantity
+          json_build_object(
+            \'eateries_id\', eateries.id,
+            \'name\', eateries.name,
+            \'items\', ARRAY_AGG(
+              json_build_object(
+                \'itemID:\', food_orders.item_id,
+                \'itemQty:\', food_orders.quantity
+              )
             )
-          ) AS items`),
+          ) AS details`),
         'restaurant_orders.total'
       )
       .where('restaurant_orders.customer_id', req.user._id)
-      .groupBy('restaurant_orders.id');
+      .groupBy('restaurant_orders.id', 'eateries.id')
+      .orderBy('restaurant_orders.order_date', 'desc');
     res.send(orderHistory);
   } catch (error) {
     console.log(error);

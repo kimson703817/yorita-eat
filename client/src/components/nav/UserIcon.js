@@ -30,6 +30,9 @@ const UserIcon = () => (
       <Link to="/owner/new-restaurant" className="dropdown-item">
         Become an Owner
       </Link>
+      <Link to="/order/user/history" className="dropdown-item">
+        Order History
+      </Link>
       <a style={{ color: 'red' }} className="dropdown-item" href="/auth/logout">
         Sign Out
       </a>

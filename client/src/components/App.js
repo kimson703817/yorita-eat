@@ -9,6 +9,7 @@ import AddRestaurantForm from './user/owner/AddRestaurantForm';
 import RestaurantInfoForm from './user/owner/RestaurantInfoForm';
 import RestaurantHomepage from './eatery/RestaurantHomepage';
 import Order from './user/order/Order';
+import OrderHistory from './user/order/orderHistory/OrderHistory';
 import Checkout from './billing/Checkout';
 import Discover from './eatery/Discover';
 
@@ -48,6 +49,7 @@ class App extends Component {
             />
             <Route exact path="/order" component={Order} />
             <Route exact path="/order/checkout" component={Checkout} />
+            <Route exact path="/order/user/history" component={OrderHistory} />
           </div>
         </BrowserRouter>
       </div>
