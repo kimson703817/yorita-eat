@@ -26,7 +26,6 @@ class Checkout extends Component {
   }
 
   onPayment = async res => {
-    console.log(this.props.itemsOrdered.subtotal);
     const data = {
       subtotal: this.props.itemsOrdered.subtotal,
       eateries_id: this.props.itemsOrdered.eateries_id,

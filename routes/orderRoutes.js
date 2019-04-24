@@ -37,20 +37,21 @@ router.get('/history/user', async (req, res) => {
     const orderHistory = await knex('restaurant_orders')
       .innerJoin('food_orders', 'restaurant_orders.id', 'food_orders.order_id')
       .innerJoin('eateries', 'restaurant_orders.eateries_id', 'eateries.id')
+      .innerJoin('menu_items', 'food_orders.item_id', 'menu_items.id')
       .select(
-        'restaurant_orders.id',
+        knex.raw('restaurant_orders.id AS order_id'),
         'restaurant_orders.order_date',
+        knex.raw('eateries.id AS eateries_id'),
+        'eateries.name',
         knex.raw(`
-          json_build_object(
-            \'eateries_id\', eateries.id,
-            \'name\', eateries.name,
-            \'items\', ARRAY_AGG(
-              json_build_object(
-                \'itemID:\', food_orders.item_id,
-                \'itemQty:\', food_orders.quantity
-              )
+          ARRAY_AGG(
+            json_build_object(
+              \'itemID\', food_orders.item_id,
+              \'name\', menu_items.name,
+              \'price\', menu_items.price,
+              \'qty\', food_orders.quantity
             )
-          ) AS details`),
+          ) AS items`),
         'restaurant_orders.total'
       )
       .where('restaurant_orders.customer_id', req.user._id)
