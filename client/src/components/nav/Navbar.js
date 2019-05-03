@@ -14,6 +14,7 @@ class MainNav extends Component {
     return pathname === location.pathname;
   };
 
+  // display methods
   renderIcon = () => {
     switch (this.props.auth) {
       case null:
@@ -22,18 +23,18 @@ class MainNav extends Component {
         const signInLink = (
           <ul className="nav">
             <li className="nav-item">
-              <a className="btn btn-lg" href="/auth/twitter" name="signin">
-                Sign In
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="btn btn-secondary btn-lg"
-                href="/auth/twitter"
-                name="signin"
+              <button
+                type="button"
+                data-toggle="modal"
+                data-target="#signinModal"
+                className="btn btn-sm"
               >
-                Create An Account
-              </a>
+                Sign In
+              </button>
+              {this.displaySignIn()}
+            </li>
+            <li onClick={this.displaySignUp} className="nav-item">
+              <button className="btn main-app-color btn-sm">Register</button>
             </li>
           </ul>
         );
@@ -42,6 +43,56 @@ class MainNav extends Component {
         return <UserIcon />;
     }
   };
+
+  displaySignIn = () => {
+    return (
+      <div id="signinModal" className="modal fade" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Sign in</h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span>&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <input
+                  type="email"
+                  className="col-md-8 form-control"
+                  placeholder="Username"
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="password"
+                  className="col-md-8 form-control"
+                  placeholder="Password"
+                />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn main-app-color"
+                data-dismiss="modal"
+                onClick={this.onUserSignIn}
+              >
+                Sign In
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  displaySignUp = () => {};
 
   renderNavLinkItem = (to, elementName, itemName) => (
     <li className="nav-item">
@@ -62,20 +113,21 @@ class MainNav extends Component {
     return value.toFixed(2);
   };
 
+  // Event Listeners
+  onUserSignIn = () => {};
+
   render() {
     return (
       <div>
         <div className="container">
           <div className="row">
-            <div className="col-sm" />
+            <div className="col-sm-2" />
             <div style={{ textAlign: 'center' }} className="col-sm">
               <div style={{ fontSize: '3rem' }} className="navbar-brand">
                 Yorita Eat
               </div>
             </div>
-            <div style={{ textAlign: 'right' }} className="col-sm">
-              {this.renderIcon()}
-            </div>
+            <div className="col-sm-3">{this.renderIcon()}</div>
           </div>
         </div>
 

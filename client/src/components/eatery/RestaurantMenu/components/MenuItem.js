@@ -121,7 +121,7 @@ class MenuItems extends Component {
                 Close
               </button>
               <button
-                type="submit"
+                type="button"
                 className="btn main-app-color"
                 data-dismiss="modal"
                 onClick={this.onQuantitySubmit}
