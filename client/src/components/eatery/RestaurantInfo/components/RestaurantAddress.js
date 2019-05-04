@@ -30,7 +30,6 @@ class RestaurantAddress extends Component {
 
   renderCityStateZip = () => {
     const { city, state, zipcode } = this.props.address;
-    console.log(state);
 
     if (this.props.editMode) {
       return (

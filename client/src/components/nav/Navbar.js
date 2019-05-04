@@ -33,8 +33,16 @@ class MainNav extends Component {
               </button>
               {this.displaySignIn()}
             </li>
-            <li onClick={this.displaySignUp} className="nav-item">
-              <button className="btn main-app-color btn-sm">Register</button>
+            <li className="nav-item">
+              <button
+                type="button"
+                data-toggle="modal"
+                data-target="#signupModal"
+                className="btn main-app-color btn-sm"
+              >
+                Register
+              </button>
+              {this.displaySignUp()}
             </li>
           </ul>
         );
@@ -92,7 +100,60 @@ class MainNav extends Component {
     );
   };
 
-  displaySignUp = () => {};
+  displaySignUp = () => {
+    return (
+      <div id="signupModal" className="modal fade" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Sign up</h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span>&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <input
+                  type="email"
+                  className="col-md-8 form-control"
+                  placeholder="Username"
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="password"
+                  className="col-md-8 form-control"
+                  placeholder="Password"
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="password"
+                  className="col-md-8 form-control"
+                  placeholder="Confirm Password"
+                />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn main-app-color"
+                data-dismiss="modal"
+                onClick={this.onUserSignUp}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   renderNavLinkItem = (to, elementName, itemName) => (
     <li className="nav-item">
@@ -115,6 +176,8 @@ class MainNav extends Component {
 
   // Event Listeners
   onUserSignIn = () => {};
+
+  onUserSignUp = () => {};
 
   render() {
     return (
